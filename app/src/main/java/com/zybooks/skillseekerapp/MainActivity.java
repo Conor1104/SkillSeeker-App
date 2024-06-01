@@ -13,9 +13,12 @@ public class MainActivity extends AppCompatActivity {
 
         //SSDataBaseHelper stuff
         //object of database class is created
-        SSDataBaseHelper SSDBhelper= new SSDataBaseHelper(this);
+       SSDataBaseHelper SS_USER_DATA_BASE= new SSDataBaseHelper(this);
         //test dummy
         //calls function and data is passed to addUser In SSDataBaseHelper
-        SSDBhelper.addUser("Will", "23525637");
+        SS_USER_DATA_BASE.addUser("Will", "23525637" , "23");
+
+        SS_USER_DATA_BASE.addFreelancer("Mr. Freelancer", "678493349" , "5");
+
     }
 }
