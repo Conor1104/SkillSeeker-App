@@ -90,7 +90,7 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
     public ArrayList<ModalUser>fetchUser(){
         SQLiteDatabase db = this.getReadableDatabase();
         //if looking for just name put condition in second parameter where null is
-        //* mean all columns. Replace * with column name for just that column. use , for multi
+        //* means all columns. Replace * with column name for just that column. use , for multi
         Cursor cursor = db.rawQuery(" SELECT * FROM " + TABLE_NAME, null);
         ArrayList<ModalUser> arrayList = new ArrayList<ModalUser>();
 
