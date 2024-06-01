@@ -87,4 +87,24 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
         db.insert(FREELANCER_TABLE_NAME, null, values);
     }
 
+    public ArrayList<ModalUser>fetchUser(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        //if looking for just name put condition in second parameter where null is
+        //* mean all columns. Replace * with column name for just that column. use , for multi
+        Cursor cursor = db.rawQuery(" SELECT * FROM " + TABLE_NAME, null);
+        ArrayList<ModalUser> arrayList = new ArrayList<ModalUser>();
+
+        while(cursor.moveToNext()){
+            ModalUser modaluser = new ModalUser();
+            //Get Int because first column is ID num
+            modaluser.id = cursor.getInt(0);
+            modaluser.name=cursor.getString(1);
+            modaluser.phone_num= cursor.getString(2);
+            modaluser.age=cursor.getString(3);
+
+            arrayList.add(modaluser);
+
+        }
+        return arrayList;
+    }
 }
