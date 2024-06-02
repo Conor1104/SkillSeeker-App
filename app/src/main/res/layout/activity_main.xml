@@ -1,18 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/User_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="User"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- User Input Fields -->
+    <EditText
+        android:id="@+id/nameInput"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Enter Name"
+        app:layout_constraintTop_toBottomOf="@+id/User_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"/>
+
+    <EditText
+        android:id="@+id/phoneInput"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Enter Phone Number"
+        android:inputType="phone"
+        app:layout_constraintTop_toBottomOf="@+id/nameInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"/>
+
+    <EditText
+        android:id="@+id/ageInput"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="Enter Age"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/phoneInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"/>
+
+    <Button
+        android:id="@+id/UserSubmitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        app:layout_constraintTop_toBottomOf="@+id/ageInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/FeelancerInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Freelancer Input"
+        app:layout_constraintBottom_toTopOf="@+id/freelancerNameInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Freelancer Input Fields -->
+    <EditText
+        android:id="@+id/freelancerNameInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Freelancer Name"
+        app:layout_constraintTop_toBottomOf="@+id/UserSubmitButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"/>
+
+    <EditText
+        android:id="@+id/freelancerExpInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Freelancer Experience"
+        app:layout_constraintTop_toBottomOf="@+id/freelancerNameInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"/>
+
+    <EditText
+        android:id="@+id/freelancerReviewInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Freelancer Star Review"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toBottomOf="@+id/freelancerExpInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"/>
+
+    <Button
+        android:id="@+id/freelancerSubmitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Freelancer"
+        app:layout_constraintTop_toBottomOf="@+id/freelancerReviewInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
