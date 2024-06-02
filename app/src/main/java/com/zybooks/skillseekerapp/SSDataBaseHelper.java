@@ -3,6 +3,7 @@ package com.zybooks.skillseekerapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
@@ -12,13 +13,13 @@ import androidx.annotation.Nullable;
 public class SSDataBaseHelper extends SQLiteOpenHelper {
 
     //USER_DATA_TABLE
-    private static final String SKILLSEEKER_DATABASE = "Contacts";
+    private static final String SKILLSEEKER_DATABASE = "SkillSeekerDatabase";
     //If trying to add a new data set to the DATABASE_VERSION must be incremented to see new change
     private static final int DATABASE_VERSION= 3;
-    private static final String TABLE_NAME= "Contacts";
 
     //Columns
-    private static final String KEY_ID = "id";
+    private static final String USER_TABLE_NAME = "Contacts";
+    private static final String KEY_ID = "user_id";
     private static final String KEY_NAME = "name";
     private static final String KEY_PHONE_NUM = "phone_num";
     private static final String KEY_USER_AGE = "age";
@@ -40,13 +41,14 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    //Method creates both the User Table and Freelancer Table
     public void onCreate(SQLiteDatabase db) {
         //CREATE TABLE contacts ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone_num TEXT, age TEXT)
-        String createTable = ("CREATE TABLE " + TABLE_NAME + " (" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+        String createUserTable = ("CREATE TABLE " + USER_TABLE_NAME + " (" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
         + KEY_NAME + " TEXT, " + KEY_PHONE_NUM + " TEXT, " +  KEY_USER_AGE + " TEXT)");
 
         //Note for self- getReadableDatabase() for grabing data. getWritableDatabase for inserting, updating, or delete data
-        db.execSQL(createTable);
+        db.execSQL(createUserTable);
         //SQLiteDatabase database = this.getWritableDatabase();
 
         //query to insert
@@ -60,12 +62,13 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
     //updates table
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Drops older tables if they exist
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + FREELANCER_TABLE_NAME);
         //Creates table again
         onCreate(db);
     }
 
+    //Method for adding Users to the User Database
     public void addUser(String name, String phone_num, String age){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -75,8 +78,9 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
         values.put(KEY_USER_AGE, age);
 
 
-        db.insert(TABLE_NAME, null, values);
+        db.insert(USER_TABLE_NAME, null, values);
     }
+    //Method for adding Freelancers to the User Database
     public void addFreelancer(String freelancer_name, String freelancer_exp, String review_stars) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -88,24 +92,88 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
         db.insert(FREELANCER_TABLE_NAME, null, values);
     }
 
-    public ArrayList<ModalUser>fetchUser(){
+    public ArrayList<ModalUser> fetchUser() {
+        ArrayList<ModalUser> userList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        //if looking for just name put condition in second parameter where null is
-        //* means all columns. Replace * with column name for just that column. use , for multi
-        Cursor cursor = db.rawQuery(" SELECT * FROM " + TABLE_NAME, null);
-        ArrayList<ModalUser> arrayList = new ArrayList<ModalUser>();
+        String selectQuery = "SELECT * FROM " + USER_TABLE_NAME;
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        while(cursor.moveToNext()){
-            ModalUser modaluser = new ModalUser();
-            //Get Int because first column is ID num
-            modaluser.id = cursor.getInt(0);
-            modaluser.name=cursor.getString(1);
-            modaluser.phone_num= cursor.getString(2);
-            modaluser.age=cursor.getString(3);
-
-            arrayList.add(modaluser);
-
+        //Helps find the the retrievable values in User datatable with the help of the cursor
+        if (cursor.moveToFirst()) {
+            do {
+                ModalUser user = new ModalUser();
+                user.user_id = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID));
+                user.name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME));
+                user.phone_num = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PHONE_NUM));
+                user.age = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_AGE));
+                userList.add(user);
+            } while (cursor.moveToNext());
         }
-        return arrayList;
+        cursor.close();
+        return userList;
+    }
+
+    //Method that updates data in the User Database
+    public void updateUser(ModalUser modaluser){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        //DATA we want to update
+
+        // Check if the name is modified
+        if (modaluser.name != null) {
+            values.put(KEY_NAME, modaluser.name);
+        }
+
+        // Check if the phone number is modified
+        if (modaluser.phone_num != null) {
+            values.put(KEY_PHONE_NUM, modaluser.phone_num);
+        }
+
+        // Check if the age is modified
+        if (modaluser.age != null) {
+            values.put(KEY_USER_AGE, modaluser.age);
+        }
+        /*
+        values.put(KEY_PHONE_NUM, modaluser.phone_num);
+        values.put(KEY_NAME, modaluser.name);
+        values.put(KEY_USER_AGE, modaluser.age);
+         */
+        db.update(USER_TABLE_NAME, values, KEY_ID + " = " + modaluser.user_id, null);
+
+    }
+    public ArrayList<ModalFreelancer> fetchFreelancer() {
+        ArrayList<ModalFreelancer> freelancerList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + FREELANCER_TABLE_NAME;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+       //Helps find the the retrievable values in freelancer datatable with the help of the cursor
+        if (cursor.moveToFirst()) {
+            do {
+                ModalFreelancer freelancer = new ModalFreelancer();
+                freelancer.freelancer_id = cursor.getInt(cursor.getColumnIndexOrThrow(FREELANCER_ID));
+                freelancer.name = cursor.getString(cursor.getColumnIndexOrThrow(FREELANCER_NAME));
+                freelancer.experience = cursor.getString(cursor.getColumnIndexOrThrow(FREELANCER_EXP));
+                freelancer.starReview = cursor.getString(cursor.getColumnIndexOrThrow(FREELANCER_STAR_REVIEW));
+                freelancerList.add(freelancer);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return freelancerList;
+    }
+
+    //Method to update Freelanceer data in datatable *WORK IN PROGRESS*
+    public void updateFreelancer(ModalFreelancer freelancer) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FREELANCER_NAME, freelancer.name);
+        values.put(FREELANCER_EXP, freelancer.experience);
+        values.put(FREELANCER_STAR_REVIEW, freelancer.starReview);
+
+        db.update(FREELANCER_TABLE_NAME, values, FREELANCER_ID + " = " + freelancer.freelancer_id, null);
     }
 }
+
+
