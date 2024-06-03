@@ -12,4 +12,9 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="register_or_login">Register or Login</string>
+    <string name="login_button_description">Go to login page</string>
+    <string name="go_back_button_description">Go back to main page</string>
 </resources>
