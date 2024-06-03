@@ -16,7 +16,7 @@ public class Login_Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.login_register_page);
+        setContentView(R.layout.activity_login_page);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -24,14 +24,13 @@ public class Login_Register extends AppCompatActivity {
         });
     }
 
-    public void goto_activity_main (View view){
+    public void goto_login_page (View view){
         Intent intent = new Intent (this, MainActivity.class);
         startActivity(intent);
-    } // Will go to register page
-
-    public void goto_activity_login_page (View view){
-        Intent intent = new Intent (this, register_page.class);
-        startActivity(intent);
     } // Will go to login page
+    public void gotoActivity_Register (View view){
+        Intent intent = new Intent (this, Activity_Register.class);
+        startActivity(intent);
+    } // Will go to register page
 
 }
