@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.zybooks.skillseekerapp.ModalFreelancer;
 import com.zybooks.skillseekerapp.ModalUser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import java.util.ArrayList;
@@ -127,5 +128,9 @@ public class MainActivity extends AppCompatActivity {
         /*for(int i = 0; i < data.size(); i++){
             Log.d("User info ", "Name " + data.get(i).name + " Phone Num " + data.get(i).phone_num + " Age " + data.get(i).age);
         }*/
+        public void goto_register (View view){
+            Intent intent = new Intent (this, Login_Register.class);
+            startActivity(intent);
+        }
 
 }
