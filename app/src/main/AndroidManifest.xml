@@ -24,6 +24,9 @@
         </provider>
 
         <activity
+            android:name=".register_page"
+            android:exported="false" />
+        <activity
             android:name=".Login_Register"
             android:exported="false" />
         <activity
