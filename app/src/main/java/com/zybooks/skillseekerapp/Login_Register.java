@@ -27,6 +27,11 @@ public class Login_Register extends AppCompatActivity {
     public void goto_activity_main (View view){
         Intent intent = new Intent (this, MainActivity.class);
         startActivity(intent);
-    }
+    } // Will go to register page
+
+    public void goto_activity_login_page (View view){
+        Intent intent = new Intent (this, register_page.class);
+        startActivity(intent);
+    } // Will go to login page
 
 }

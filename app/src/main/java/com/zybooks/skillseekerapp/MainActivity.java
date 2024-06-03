@@ -1,8 +1,6 @@
 package com.zybooks.skillseekerapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.zybooks.skillseekerapp.ModalFreelancer;
-import com.zybooks.skillseekerapp.ModalUser;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register);
 
         //SSDataBaseHelper stuff
         //object of database class is created
@@ -131,6 +129,6 @@ public class MainActivity extends AppCompatActivity {
         public void goto_register (View view){
             Intent intent = new Intent (this, Login_Register.class);
             startActivity(intent);
-        }
+        } // Goes to main login screen (Method For Back Button)
 
 }
