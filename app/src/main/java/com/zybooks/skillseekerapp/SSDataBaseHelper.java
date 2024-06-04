@@ -15,7 +15,7 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
     //USER_DATA_TABLE
     private static final String SKILLSEEKER_DATABASE = "SkillSeekerDatabase";
     //If trying to add a new data set to the DATABASE_VERSION must be incremented to see new change
-    private static final int DATABASE_VERSION= 3;
+    private static final int DATABASE_VERSION= 6;
 
     //Columns
     private static final String USER_TABLE_NAME = "Contacts";
@@ -23,6 +23,11 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
     private static final String KEY_NAME = "name";
     private static final String KEY_PHONE_NUM = "phone_num";
     private static final String KEY_USER_AGE = "age";
+
+    private static final String KEY_USER_PASSWORD = "user_password";
+
+    private static final String KEY_USER_EMAIL = "user_email";
+
     //USER_DATA_TABLE
 
     //FREELANCERS_DATA_TABEL
@@ -32,6 +37,7 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
     private static final String FREELANCER_EXP= "freelancer_exp";
     private static final String FREELANCER_STAR_REVIEW= "review_stars";
 
+    private static final String FREELANCER_PASSWORD= "freelancer_password";
 
     //FREELANCERS_DATA_TABEL
 
@@ -45,7 +51,7 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //CREATE TABLE contacts ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone_num TEXT, age TEXT)
         String createUserTable = ("CREATE TABLE " + USER_TABLE_NAME + " (" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-        + KEY_NAME + " TEXT, " + KEY_PHONE_NUM + " TEXT, " +  KEY_USER_AGE + " TEXT)");
+        + KEY_NAME + " TEXT, " + KEY_PHONE_NUM + " TEXT, " +  KEY_USER_AGE + " TEXT, " + KEY_USER_PASSWORD + " TEXT," + KEY_USER_EMAIL + " TEXT)");
 
         //Note for self- getReadableDatabase() for grabing data. getWritableDatabase for inserting, updating, or delete data
         db.execSQL(createUserTable);
@@ -55,7 +61,7 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
 
         //Create Freelancer table
         String createFreelancerTable = ("CREATE TABLE " + FREELANCER_TABLE_NAME + " (" + FREELANCER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                FREELANCER_NAME + " TEXT, " + FREELANCER_EXP + " TEXT, " + FREELANCER_STAR_REVIEW + " TEXT)");
+                FREELANCER_NAME + " TEXT, " + FREELANCER_EXP + " TEXT, " + FREELANCER_STAR_REVIEW + " TEXT, " + FREELANCER_PASSWORD + " TEXT)");
         db.execSQL(createFreelancerTable);
     }
     @Override
@@ -69,25 +75,28 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
     }
 
     //Method for adding Users to the User Database
-    public void addUser(String name, String phone_num, String age){
+    public void addUser(String name, String phone_num, String age, String user_password, String user_email){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, name);
         values.put(KEY_PHONE_NUM, phone_num);
         values.put(KEY_USER_AGE, age);
+        values.put(KEY_USER_PASSWORD, user_password);
+        values.put(KEY_USER_EMAIL, user_email);
 
 
         db.insert(USER_TABLE_NAME, null, values);
     }
     //Method for adding Freelancers to the User Database
-    public void addFreelancer(String freelancer_name, String freelancer_exp, String review_stars) {
+    public void addFreelancer(String freelancer_name, String freelancer_exp, String review_stars, String freelancer_password) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(FREELANCER_NAME, freelancer_name);
         values.put(FREELANCER_EXP, freelancer_exp);
         values.put(FREELANCER_STAR_REVIEW, review_stars);
+        values.put(FREELANCER_PASSWORD, freelancer_password);
 
         db.insert(FREELANCER_TABLE_NAME, null, values);
     }
@@ -106,6 +115,9 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
                 user.name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME));
                 user.phone_num = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PHONE_NUM));
                 user.age = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_AGE));
+                user.user_password = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_PASSWORD));
+                user.user_email = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_EMAIL));
+
                 userList.add(user);
             } while (cursor.moveToNext());
         }
@@ -134,6 +146,12 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
         if (modaluser.age != null) {
             values.put(KEY_USER_AGE, modaluser.age);
         }
+        if (modaluser.user_password != null) {
+            values.put(KEY_USER_PASSWORD, modaluser.user_password);
+        }
+        if (modaluser.user_email != null) {
+            values.put(KEY_USER_EMAIL, modaluser.user_email);
+        }
         /*
         values.put(KEY_PHONE_NUM, modaluser.phone_num);
         values.put(KEY_NAME, modaluser.name);
@@ -156,6 +174,7 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
                 freelancer.name = cursor.getString(cursor.getColumnIndexOrThrow(FREELANCER_NAME));
                 freelancer.experience = cursor.getString(cursor.getColumnIndexOrThrow(FREELANCER_EXP));
                 freelancer.starReview = cursor.getString(cursor.getColumnIndexOrThrow(FREELANCER_STAR_REVIEW));
+                freelancer.freelancerPassword = cursor.getString(cursor.getColumnIndexOrThrow(FREELANCER_PASSWORD));
                 freelancerList.add(freelancer);
             } while (cursor.moveToNext());
         }
@@ -171,6 +190,7 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
         values.put(FREELANCER_NAME, freelancer.name);
         values.put(FREELANCER_EXP, freelancer.experience);
         values.put(FREELANCER_STAR_REVIEW, freelancer.starReview);
+        values.put(FREELANCER_PASSWORD, freelancer.freelancerPassword);
 
         db.update(FREELANCER_TABLE_NAME, values, FREELANCER_ID + " = " + freelancer.freelancer_id, null);
     }
