@@ -33,38 +33,38 @@
         app:barrierDirection="left" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/userName_FreelancerName_Input"
         android:layout_width="380dp"
         android:layout_height="48dp"
         android:layout_marginBottom="27dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Username"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
+        android:text="Username or Freelancer Name"
+        app:layout_constraintBottom_toTopOf="@+id/passwordIntput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/passwordIntput"
         android:layout_width="380dp"
         android:layout_height="48dp"
         android:layout_marginBottom="44dp"
         android:ems="10"
         android:inputType="text"
         android:text="Password"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="161dp"
         android:text="Login"
-
+        android:onClick="login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
