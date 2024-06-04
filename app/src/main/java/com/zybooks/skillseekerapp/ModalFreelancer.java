@@ -5,4 +5,5 @@ public class ModalFreelancer {
     public String name;
     public String experience;
     public String starReview;
+    public String freelancerPassword;
 }
