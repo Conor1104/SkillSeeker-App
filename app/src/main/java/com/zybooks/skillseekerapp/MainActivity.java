@@ -15,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat;
 //login_register_page connected
 public class MainActivity extends AppCompatActivity {
 
+    private SSDataBaseHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Initialize the database helper
+        dbHelper = new SSDataBaseHelper(this);
+        // This will create/turn on the database
+        dbHelper.getWritableDatabase();
     }
 
     public void goto_login_page (View view){
