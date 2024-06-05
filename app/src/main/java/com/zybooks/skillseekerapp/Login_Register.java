@@ -1,7 +1,3 @@
-/*BUGS
-* - BUG is users/freelancers can sign in with mismatched user names or passwords.
-* Will P
-* */
 
 package com.zybooks.skillseekerapp;
 
@@ -27,6 +23,7 @@ public class Login_Register extends AppCompatActivity {
     private SSDataBaseHelper dbHelper;
     private EditText UsernameFreelancerInput;
     private EditText passwordInput;
+
 
 
 
@@ -57,6 +54,8 @@ public class Login_Register extends AppCompatActivity {
 
         UsernameFreelancerInput = findViewById(R.id.userName_FreelancerName_Input);
         passwordInput = findViewById(R.id.passwordIntput);
+
+
     }
 
     //Checks if login for if valid or unvaild user
@@ -95,7 +94,7 @@ public class Login_Register extends AppCompatActivity {
 
         // Iterates over the user list/datatabe to find a match for the provided username/Freelancer name and password
         for (ModalUser user : userList) {
-            if (user.user_email.equals(usernameFreelancerInput) && user.user_password.equals(passwordInput)) {
+            if (user.name.equals(usernameFreelancerInput) && user.user_password.equals(passwordInput)) {
                 // User with matching username/Freelancer name and password found
                 return true;
             }
@@ -119,10 +118,10 @@ public class Login_Register extends AppCompatActivity {
     }
 
 
-    public void goto_login_page(View view) {
+    public void goto_mainactivity(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-    } // Will go to login page
+    } // Will go to mainactivity page
 
     public void goto_directory(View view) {
         Intent intent = new Intent(this, Directory.class);
