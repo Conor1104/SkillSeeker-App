@@ -15,7 +15,7 @@ public class SSDataBaseHelper extends SQLiteOpenHelper {
     //USER_DATA_TABLE
     private static final String SKILLSEEKER_DATABASE = "SkillSeekerDatabase";
     //If trying to add a new data set to the DATABASE_VERSION must be incremented to see new change
-    private static final int DATABASE_VERSION= 6;
+    private static final int DATABASE_VERSION= 7;
 
     //Columns
     private static final String USER_TABLE_NAME = "Contacts";
