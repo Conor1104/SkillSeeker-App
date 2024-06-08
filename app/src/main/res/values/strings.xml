@@ -19,4 +19,5 @@
     <string name="go_back_button_description">Go back to main page</string>
     <string name="user_password_box">User password fill in box</string>
     <string name="user_email_box"> User E-mail fill in box</string>strings>
+    <string name="mainactivity_description"> Button to return to the main open screen page</string>
 </resources>

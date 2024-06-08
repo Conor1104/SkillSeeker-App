@@ -5,12 +5,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FEFEFE"
     tools:context=".MainActivity">
 
 
     <ImageButton
-        android:id="@+id/Login_imageButton"
-        android:contentDescription="@string/login_button_description"
+        android:id="@+id/Mainactivity_imageButton"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
@@ -18,7 +18,8 @@
         android:layout_marginEnd="335dp"
         android:layout_marginBottom="655dp"
         android:backgroundTint="#6750A4"
-        android:onClick="goto_login_page"
+        android:contentDescription="@string/mainactivity_description"
+        android:onClick="goto_mainactivity"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,8 +64,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="161dp"
-        android:text="Login"
         android:onClick="login"
+        android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
