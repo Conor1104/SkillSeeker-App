@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+<item
+    android:title="Search"
+    android:id="@+id/SearchButton"
+    android:icon="@drawable/search"
+    app:actionViewClass="androidx.appcompat.widget.SearchView"
+    app:showAsAction="ifRoom|collapseActionView" />
+
+<item
+    android:title="Settings"
+    android:id="@+id/Settings"
+    android:icon="@drawable/settings"
+    />
+</menu>

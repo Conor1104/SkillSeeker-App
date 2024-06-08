@@ -27,10 +27,10 @@
         android:icon="@drawable/messages"/>
 
     <item
-        android:id="@+id/Settings"
+        android:id="@+id/Profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Messages"
-        android:icon="@drawable/settings"/>
+        android:title="Profile"
+        android:icon="@drawable/profile"/>
 
 </menu>

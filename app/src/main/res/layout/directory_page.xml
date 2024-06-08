@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#3366cc"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="SkillSeeker"
+        app:titleMarginStart="30dp"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+        app:menu="@menu/toolbar_menu"/>
+
     <FrameLayout
 
         android:id="@+id/frameLayout"
@@ -14,9 +28,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_menu"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
