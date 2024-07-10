@@ -16,11 +16,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+//Firebase
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class Login_Register extends AppCompatActivity {
 
-    private SSDataBaseHelper dbHelper;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private EditText UsernameFreelancerInput;
     private EditText passwordInput;
 
@@ -48,13 +51,10 @@ public class Login_Register extends AppCompatActivity {
             return insets;
         });
 
-
-        //Untilize the database helper class
-        dbHelper = new SSDataBaseHelper(this);
+        //spot
 
         UsernameFreelancerInput = findViewById(R.id.userName_FreelancerName_Input);
         passwordInput = findViewById(R.id.passwordIntput);
-
 
     }
 
@@ -63,58 +63,45 @@ public class Login_Register extends AppCompatActivity {
         String username_freelancername = UsernameFreelancerInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
 
-        //Checking if the user exist id Database
-        boolean userExist = checkUser(username_freelancername, password);
-
-        // Checking if the freelancer exists in the freelancer Database
-        boolean freelancerExist = checkFreelancer(username_freelancername, password);
-
-        if (userExist) {//user is in database
-            //Userexist
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            goto_directory(view);
-
-        }
-        else if (freelancerExist){
-            // Freelancer exists in freelancer database
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            goto_directory(view);
-        }
-        else {//user is not in database or input info is wrong
-            Toast.makeText(Login_Register.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
-
-        }
+        //checking if the user exists in the database
+        checkUser(username_freelancername, password, view);
     }
 
-    private boolean checkUser(String usernameFreelancerInput, String passwordInput) {
-        ArrayList<ModalUser> userList = dbHelper.fetchUser();//useing the user datatable
-        ArrayList<ModalFreelancer> freelancerList = dbHelper.fetchFreelancer();//useing the freelancer datatable
-
-        // Iterates over the user list/datatabe to find a match for the provided username/Freelancer name and password
-        for (ModalUser user : userList) {
-            if (user.name.equals(usernameFreelancerInput) && user.user_password.equals(passwordInput)) {
-                // User with matching username/Freelancer name and password found
-                return true;
-            }
-        }
-
-        // No user with matching name/Freelancer name and password found
-        return false;
-
+    private void checkUser(String usernameFreelancerInput, String passwordInput, View view) {
+        db.collection("users")
+                .whereEqualTo("name", usernameFreelancerInput)
+                .whereEqualTo("user_password", passwordInput)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        //user exists in the database
+                        goto_directory(view);
+                    } else {
+                        //checking if the freelancer exists in the freelancer database
+                        checkFreelancer(usernameFreelancerInput, passwordInput, view);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(Login_Register.this, "Error checking user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
-    private boolean checkFreelancer(String usernameFreelancerInput, String passwordInput) {
-        ArrayList<ModalFreelancer> freelancerList = dbHelper.fetchFreelancer();
-
-        // Iterate over the freelancer list/datatabe to find a match for the provided username and password
-        for (ModalFreelancer freelancer : freelancerList) {
-            if (freelancer.name.equals(usernameFreelancerInput) && freelancer.freelancerPassword.equals(passwordInput)) {
-                return true;
-            }
-        }
-        return false;
+    private void checkFreelancer(String usernameFreelancername, String password, View view) {
+        db.collection("freelancers")
+                .whereEqualTo("freelancer_name", usernameFreelancername)
+                .whereEqualTo("freelancer_password", password)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        //freelancer exists in the database
+                        goto_directory(view);
+                    } else {
+                        Toast.makeText(Login_Register.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(Login_Register.this, "Error checking freelancer: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
 

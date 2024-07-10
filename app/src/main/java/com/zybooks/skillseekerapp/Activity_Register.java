@@ -5,16 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 //For XML stuff
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class Activity_Register extends AppCompatActivity {
 
-    private SSDataBaseHelper dbHelper;
+    private FirebaseFirestore db; //Firebase instance
     private EditText nameInput;
     private EditText phoneInput;
     private EditText ageInput;
@@ -35,8 +39,8 @@ public class Activity_Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         //SSDataBaseHelper stuff
-        //object of database class is created
-        dbHelper= new SSDataBaseHelper(this);
+        //Initializes firebase database
+        db = FirebaseFirestore.getInstance();
 
         //finds the XML Data by id
         nameInput = findViewById(R.id.nameInput);
@@ -53,11 +57,11 @@ public class Activity_Register extends AppCompatActivity {
         freelancerPasswordInput = findViewById(R.id.freelancerPasswordInput);
 
 
-
         //Listens for UserSubmitButton click and checks for if data is filled in or not
         UserSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Input boxes
                 String name = nameInput.getText().toString();
                 String phone = phoneInput.getText().toString();
                 String age = ageInput.getText().toString();
@@ -65,8 +69,8 @@ public class Activity_Register extends AppCompatActivity {
                 String user_email = userEmail.getText().toString();
 
                 //Error handling
-                if (!name.isEmpty() && !phone.isEmpty() && !age.isEmpty() &&!user_password.isEmpty() && !user_email.isEmpty()) {
-                    dbHelper.addUser(name, phone, age, user_password, user_email);
+                if (!name.isEmpty() && !phone.isEmpty() && !age.isEmpty() && !user_password.isEmpty() && !user_email.isEmpty()) {
+                    addUserToFirestore(name, phone, age, user_password, user_email);//Calls the method to add the User
                     Toast.makeText(Activity_Register.this, "User added", Toast.LENGTH_SHORT).show();
                     clearInputs();
                     //Will take the User to the login page to login to there new account
@@ -77,47 +81,70 @@ public class Activity_Register extends AppCompatActivity {
             }
         });
 
+
         freelancerSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Input boxes
                 String freelancer_name = freelancerNameInput.getText().toString();
                 String experience = freelancerExpInput.getText().toString();
                 String review_stars = freelancerReviewInput.getText().toString();
                 String freelancer_password = freelancerPasswordInput.getText().toString();
 
+                //Error handling
                 if (!freelancer_name.isEmpty() && !experience.isEmpty() && !review_stars.isEmpty() && !freelancer_password.isEmpty()) {
-                    dbHelper.addFreelancer(freelancer_name, experience, review_stars,freelancer_password );
-                    Toast.makeText(Activity_Register.this, "User added", Toast.LENGTH_SHORT).show();
+                    addFreelancerToFirestore(freelancer_name, experience, review_stars, freelancer_password); //Calls the method to add the Freelancer
+                    Toast.makeText(Activity_Register.this, "Freelancer added", Toast.LENGTH_SHORT).show();
                     clearInputs();
                     //Will take the Freelancer to the login page to login to there new account
                     goto_login_page();
-                }
-                else {
+                } else {
                     Toast.makeText(Activity_Register.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
 
         //Test for fetching and logging users
-        ArrayList<ModalUser> userData = dbHelper.fetchUser();
-        for (ModalUser user : userData) {
-            Log.d("User info", "ID: " + user.user_id + " Name: " + user.name + " Phone Num: " + user.phone_num + " Age: " + user.age + " Password: " + user.user_password + " Email: " + user.user_email);
+        private void addUserToFirestore(String name, String phone, String age, String password, String email) {
+            Map<String, Object> user = new HashMap<>(); //Data is Hashed(Security)
+            user.put("name", name);
+            user.put("phone_num", phone);
+            user.put("age", age);
+            user.put("user_password", password);
+            user.put("user_email", email);
+
+            db.collection("users")
+                    .add(user)
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(Activity_Register.this, "User added", Toast.LENGTH_SHORT).show();
+                        clearInputs();
+                        goto_login_page();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(Activity_Register.this, "Error adding user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         }
 
-        // Test: fetch and log freelancers
-        ArrayList<ModalFreelancer> freelancerData = dbHelper.fetchFreelancer();
-        for (ModalFreelancer freelancer : freelancerData) {
-            Log.d("Freelancer info", "ID: " + freelancer.freelancer_id + " Name: " + freelancer.name + " Experience: " + freelancer.experience + " Star Review: " + freelancer.starReview + " Freelancer Password: " + freelancer.freelancerPassword);
-        }
+        private void addFreelancerToFirestore(String name, String experience, String reviewStars, String password) {
+            Map<String, Object> freelancer = new HashMap<>();
+            freelancer.put("freelancer_name", name);
+            freelancer.put("freelancer_exp", experience);
+            freelancer.put("review_stars", reviewStars);
+            freelancer.put("freelancer_password", password);
 
-        //Changes data in the data set. Changing phone num example
-        /* *WORK IN PROGRESS*
-        ModalUser user_modal = new ModalUser();
-        user_modal.user_id = 1;
-        user_modal.phone_num = "123";
-        dbHelper.updateUser(user_modal);
+            db.collection("freelancers")
+                    .add(freelancer)
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(Activity_Register.this, "Freelancer added", Toast.LENGTH_SHORT).show();
+                        clearFreelancerInputs();
+                        goto_login_page();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(Activity_Register.this, "Error adding freelancer: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
 
-         */
+
     }
     private void clearInputs() {
         nameInput.setText("");
@@ -134,7 +161,7 @@ public class Activity_Register extends AppCompatActivity {
         freelancerPasswordInput.setText("");
     }
     //test dummy
-    //calls function and data is passed to addUser In SSDataBaseHelper
+    //calls function and data is passed to addUser In SSDataBaseHelper (OLD VER)
 
     //Example for adding users and Freelancers
     //SS_USER_DATA_BASE.addUser("Will", "23525637" , "23");
@@ -146,7 +173,7 @@ public class Activity_Register extends AppCompatActivity {
             Log.d("User info ", "Name " + data.get(i).name + " Phone Num " + data.get(i).phone_num + " Age " + data.get(i).age);
         }*/
 
-    //Not Button
+    //Button
     public void goto_login_page(){
         Intent intent = new Intent (this, Login_Register.class);
         startActivity(intent);

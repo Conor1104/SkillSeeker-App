@@ -9,29 +9,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+//Firebase
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 
 //login_register_page connected
 public class MainActivity extends AppCompatActivity {
 
-    private SSDataBaseHelper dbHelper;
-
+    //private SSDataBaseHelper dbHelper;
+    private FirebaseFirestore db; // Declare FirebaseFirestore variable
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.login_register_page);
+
+        // Initialize the database helper
+        // Initialize Firebase
+        FirebaseApp.initializeApp(this);
+        db = FirebaseFirestore.getInstance();
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Initialize the database helper
-        dbHelper = new SSDataBaseHelper(this);
-        // This will create/turn on the database
-        dbHelper.getWritableDatabase();
+
     }
 
     public void goto_login_page (View view){
