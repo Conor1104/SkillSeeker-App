@@ -74,8 +74,13 @@ public class Login_Register extends AppCompatActivity {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
+
                         //user exists in the database
-                        goto_directory(view);
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String user_or_freelancerID = document.getId();//Gets the USERS ID
+                            goto_directory(view, user_or_freelancerID);
+                            break;
+                        }
                     } else {
                         //checking if the freelancer exists in the freelancer database
                         checkFreelancer(usernameFreelancerInput, passwordInput, view);
@@ -94,7 +99,11 @@ public class Login_Register extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
                         //freelancer exists in the database
-                        goto_directory(view);
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String user_or_freelancerID = document.getId();//Gets the FREELANCERS ID
+                            goto_directory(view, user_or_freelancerID);
+                            break;
+                        }
                     } else {
                         Toast.makeText(Login_Register.this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
                     }
@@ -110,8 +119,9 @@ public class Login_Register extends AppCompatActivity {
         startActivity(intent);
     } // Will go to mainactivity page
 
-    public void goto_directory(View view) {
+    public void goto_directory(View view, String user_or_freelancerID) {
         Intent intent = new Intent(this, Directory.class);
+        intent.putExtra("USER_ID", user_or_freelancerID);//Pushes either the user or Freelancers ID to the directory so functions can access the users ID
         startActivity(intent);
     }//Will go to Directory
 
