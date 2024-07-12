@@ -80,19 +80,20 @@
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/userPassword" />
+            app:layout_constraintTop_toBottomOf="@id/userPassword"  />
+
+        <!-- Freelancer Input Fields -->
 
         <Button
             android:id="@+id/UserSubmitButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="4dp"
             android:text="Create User Account"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/userEmail" />
-
-        <!-- Freelancer Input Fields -->
 
         <TextView
             android:id="@+id/FreelancerInput"
@@ -127,16 +128,27 @@
             app:layout_constraintTop_toBottomOf="@id/freelancerNameInput" />
 
         <EditText
-            android:id="@+id/freelancerReviewInput"
+            android:id="@+id/freelancerEmail"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:hint="Enter Freelancer Star Review"
-            android:inputType="numberDecimal"
+            android:hint="Enter Freelancer Email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/freelancerExpInput" />
+
+        <EditText
+            android:id="@+id/freelancerPhone"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="63dp"
+            android:hint="Enter Freelancer Phone Number"
+            android:inputType="phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/freelancerEmail" />
 
         <EditText
             android:id="@+id/freelancerPasswordInput"
@@ -148,13 +160,13 @@
             android:inputType="numberPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/freelancerReviewInput" />
+            app:layout_constraintTop_toBottomOf="@+id/freelancerEmail" />
 
         <Button
             android:id="@+id/freelancerSubmitButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="60dp"
             android:text="Create Freelancer Account"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
