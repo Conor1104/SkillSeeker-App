@@ -1,9 +1,11 @@
 package com.zybooks.skillseekerapp;
 
 public class ModalFreelancer {
-    public int freelancer_id;
+    public String freelancer_id;
     public String name;
     public String experience;
-    public String starReview;
+    public String freelancer_email;
     public String freelancerPassword;
+    public String freelancer_phone;
+    //public String starReview;
 }

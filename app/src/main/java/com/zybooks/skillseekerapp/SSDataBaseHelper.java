@@ -40,13 +40,15 @@ public class SSDataBaseHelper {
     }
 
     //for adding Freelancers to the User Database
-    public void addFreelancer(String freelancer_name, String freelancer_exp, String review_stars, String freelancer_password) {
+    public void addFreelancer(String freelancer_name, String freelancer_exp, String freelancer_email, String freelancer_password, String freelancer_phonenumber) {
         Map<String, Object> freelancer = new HashMap<>();
         //Columns
         freelancer.put("freelancer_name", freelancer_name);
         freelancer.put("freelancer_exp", freelancer_exp);
-        freelancer.put("review_stars", review_stars);
+        freelancer.put("freelancer_email", freelancer_email);
         freelancer.put("freelancer_password", freelancer_password);
+        freelancer.put("freelancer_phonenumber", freelancer_phonenumber);
+        //freelancer.put("review_stars", review_stars);
 
         db.collection("freelancers")
                 .add(freelancer)
@@ -92,12 +94,14 @@ public class SSDataBaseHelper {
     }
 
     //Update Freelancer
-    public void updateFreelancer(String freelancerId, String freelancer_name, String freelancer_exp, String review_stars, String freelancer_password) {
+    public void updateFreelancer(String freelancerId, String freelancer_name, String freelancer_exp, String freelancer_email, String freelancer_password, String freelancer_phonenumber) {
         Map<String, Object> updates = new HashMap<>();
         if (freelancer_name != null) updates.put("freelancer_name", freelancer_name);
         if (freelancer_exp != null) updates.put("freelancer_exp", freelancer_exp);
-        if (review_stars != null) updates.put("review_stars", review_stars);
+        if (freelancer_email != null) updates.put("freelancer_email", freelancer_email);
         if (freelancer_password != null) updates.put("freelancer_password", freelancer_password);
+        if (freelancer_phonenumber != null) updates.put("freelancer_phonenumber", freelancer_phonenumber);
+        //if (review_stars != null) updates.put("review_stars", review_stars);
 
         db.collection("freelancers").document(freelancerId)
                 .update(updates)
@@ -115,7 +119,7 @@ public class SSDataBaseHelper {
                 ArrayList<ModalUser> userList = new ArrayList<>();
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     ModalUser user = new ModalUser();
-                    //user.user_id = document.getId(); // Firebase uses document IDs so this is not needed anymore
+                    user.user_id = document.getId(); // Firebase uses document IDs
                     user.name = document.getString("name");
                     user.phone_num = document.getString("phone_num");
                     user.age = document.getString("age");
@@ -136,11 +140,13 @@ public class SSDataBaseHelper {
                 ArrayList<ModalFreelancer> freelancerList = new ArrayList<>();
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     ModalFreelancer freelancer = new ModalFreelancer();
-                    //freelancer.freelancer_id = document.getId(); // Firebase uses document IDs so this is not needed anymore
+                    freelancer.freelancer_id = document.getId(); // Firebase uses document IDs
                     freelancer.name = document.getString("freelancer_name");
                     freelancer.experience = document.getString("freelancer_exp");
-                    freelancer.starReview = document.getString("review_stars");
+                    freelancer.freelancer_email = document.getString("freelancer_email");
                     freelancer.freelancerPassword = document.getString("freelancer_password");
+                    freelancer.freelancer_phone = document.getString("freelancer_phonenumber");
+                    //freelancer.starReview = document.getString("review_stars");
                     freelancerList.add(freelancer);
                 }
                 //Use freelancerList

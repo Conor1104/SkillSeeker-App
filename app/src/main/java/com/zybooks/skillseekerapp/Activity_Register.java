@@ -32,6 +32,8 @@ public class Activity_Register extends AppCompatActivity {
     private EditText freelancerReviewInput;
     private Button freelancerSubmitButton;
     private EditText freelancerPasswordInput;
+    private EditText freelancerEmailInput;
+    private EditText freelancerPhoneNumberInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +54,12 @@ public class Activity_Register extends AppCompatActivity {
 
         freelancerNameInput = findViewById(R.id.freelancerNameInput);
         freelancerExpInput = findViewById(R.id.freelancerExpInput);
-        freelancerReviewInput = findViewById(R.id.freelancerReviewInput);
-        freelancerSubmitButton = findViewById(R.id.freelancerSubmitButton);
+        freelancerEmailInput = findViewById(R.id.freelancerEmail);
+        //freelancerReviewInput = findViewById(R.id.freelancerReviewInput);
         freelancerPasswordInput = findViewById(R.id.freelancerPasswordInput);
+        freelancerPhoneNumberInput = findViewById(R.id.freelancerPhone);
+        freelancerSubmitButton = findViewById(R.id.freelancerSubmitButton);
+
 
 
         //Listens for UserSubmitButton click and checks for if data is filled in or not
@@ -88,12 +93,14 @@ public class Activity_Register extends AppCompatActivity {
                 //Input boxes
                 String freelancer_name = freelancerNameInput.getText().toString();
                 String experience = freelancerExpInput.getText().toString();
-                String review_stars = freelancerReviewInput.getText().toString();
+                String freelancer_email = freelancerEmailInput.getText().toString();
+                //String review_stars = freelancerReviewInput.getText().toString();
                 String freelancer_password = freelancerPasswordInput.getText().toString();
+                String freelancer_phone = freelancerPhoneNumberInput.getText().toString() ;
 
                 //Error handling
-                if (!freelancer_name.isEmpty() && !experience.isEmpty() && !review_stars.isEmpty() && !freelancer_password.isEmpty()) {
-                    addFreelancerToFirestore(freelancer_name, experience, review_stars, freelancer_password); //Calls the method to add the Freelancer
+                if (!freelancer_name.isEmpty() && !experience.isEmpty() && !freelancer_email.isEmpty() && !freelancer_password.isEmpty() && !freelancer_phone.isEmpty()) {
+                    addFreelancerToFirestore(freelancer_name, experience, freelancer_email, freelancer_password, freelancer_phone); //Calls the method to add the Freelancer
                     Toast.makeText(Activity_Register.this, "Freelancer added", Toast.LENGTH_SHORT).show();
                     clearInputs();
                     //Will take the Freelancer to the login page to login to there new account
@@ -126,12 +133,14 @@ public class Activity_Register extends AppCompatActivity {
                     });
         }
 
-        private void addFreelancerToFirestore(String name, String experience, String reviewStars, String password) {
+        private void addFreelancerToFirestore(String name, String experience, String email, String password, String phone) {
             Map<String, Object> freelancer = new HashMap<>();
             freelancer.put("freelancer_name", name);
             freelancer.put("freelancer_exp", experience);
-            freelancer.put("review_stars", reviewStars);
+            freelancer.put("freelancer_email", email);
+            //freelancer.put("review_stars", reviewStars);
             freelancer.put("freelancer_password", password);
+            freelancer.put("freelancer_phone", phone);
 
             db.collection("freelancers")
                     .add(freelancer)
