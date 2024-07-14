@@ -43,7 +43,9 @@ public class ProfileFragment extends Fragment {
     private String user_or_freelancer_id;
 
     // Save button
-    private Button saveButton;
+    private Button saveButton_Freelancers;
+
+    private Button saveButton_Users;
 
     //Headers
     private TextView age_Header;
@@ -130,15 +132,18 @@ public class ProfileFragment extends Fragment {
 
 
         //Save button(Changes to the info in profile will be saved)
-        saveButton = view_prof.findViewById(R.id.save_changes_button);
-        saveButton.setOnClickListener(v -> saveProfile());
+        saveButton_Freelancers = view_prof.findViewById(R.id.save_button_freelancers);
+        saveButton_Users = view_prof.findViewById(R.id.save_button_users);
+        saveButton_Freelancers.setOnClickListener(v -> saveProfile());
+        saveButton_Users.setOnClickListener(v -> saveProfile());
 
         //Initially set all views to GONE
         setUserViewsVisibility(View.GONE);
         setFreelancerViewsVisibility(View.GONE);
         experience_Header.setVisibility(View.GONE);
         age_Header.setVisibility(View.GONE);
-        saveButton.setVisibility(View.GONE);
+        saveButton_Freelancers.setVisibility(View.GONE);
+        saveButton_Users.setVisibility(View.GONE);
 
         //Fetch and display user profile information using the userId
         fetchUserProfile();
@@ -174,8 +179,9 @@ public class ProfileFragment extends Fragment {
                     setUserViewsVisibility(View.VISIBLE);
                     setFreelancerViewsVisibility(View.GONE);
                     experience_Header.setVisibility(View.GONE);
+                    saveButton_Freelancers.setVisibility(View.GONE);
                     age_Header.setVisibility(View.VISIBLE);
-                    saveButton.setVisibility(View.VISIBLE);
+                    saveButton_Users.setVisibility(View.VISIBLE);
 
                     //starsEditText.setVisibility(View.GONE);
                 }
@@ -221,8 +227,9 @@ public class ProfileFragment extends Fragment {
                     setFreelancerViewsVisibility(View.VISIBLE);
                     setUserViewsVisibility(View.GONE);
                     age_Header.setVisibility(View.GONE);
+                    saveButton_Users.setVisibility(View.GONE);
                     experience_Header.setVisibility(View.VISIBLE);
-                    saveButton.setVisibility(View.VISIBLE);
+                    saveButton_Freelancers.setVisibility(View.VISIBLE);
 
                     //Log.e(TAG, "Freelacner found: " + this.user_or_freelancer_id);
 
