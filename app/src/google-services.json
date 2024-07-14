@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "154782179917",
+    "project_id": "skillseeker-app",
+    "storage_bucket": "skillseeker-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154782179917:android:158cfec92eaeee9194b204",
+        "android_client_info": {
+          "package_name": "com.zybooks.skillseekerapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALeRVpGb7Ry1jxINspKkbKwoyB_lzDBN0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
