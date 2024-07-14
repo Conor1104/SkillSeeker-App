@@ -79,6 +79,8 @@ public class Directory extends AppCompatActivity {
                     fragment = profileFragment;
                 } else {
                     Toast.makeText(this, "Profile not found", Toast.LENGTH_SHORT).show();
+                    Intent register = new Intent(this, Activity_Register.class);
+                    startActivity(register);
                 }
             }
 
