@@ -14,6 +14,8 @@ import android.widget.EditText;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -43,6 +45,10 @@ public class ProfileFragment extends Fragment {
     // Save button
     private Button saveButton;
 
+    //Headers
+    private TextView age_Header;
+
+    private TextView experience_Header;
 
     //user EditText
     private EditText nameuserEditText;
@@ -105,6 +111,11 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the layout for this fragment
         View view_prof = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        //Headers
+        experience_Header = view_prof.findViewById(R.id.experience_HeaderText);
+        age_Header = view_prof.findViewById(R.id.age_headerText);
+
         //EditText boxes
         nameuserEditText = view_prof.findViewById(R.id.profile_name_user);
         phoneEditText = view_prof.findViewById(R.id.profile_phone);
@@ -125,6 +136,8 @@ public class ProfileFragment extends Fragment {
         //Initially set all views to GONE
         setUserViewsVisibility(View.GONE);
         setFreelancerViewsVisibility(View.GONE);
+        experience_Header.setVisibility(View.GONE);
+        age_Header.setVisibility(View.GONE);
         saveButton.setVisibility(View.GONE);
 
         //Fetch and display user profile information using the userId
@@ -160,6 +173,8 @@ public class ProfileFragment extends Fragment {
                     // Show user views and hide freelancer views
                     setUserViewsVisibility(View.VISIBLE);
                     setFreelancerViewsVisibility(View.GONE);
+                    experience_Header.setVisibility(View.GONE);
+                    age_Header.setVisibility(View.VISIBLE);
                     saveButton.setVisibility(View.VISIBLE);
 
                     //starsEditText.setVisibility(View.GONE);
@@ -205,6 +220,8 @@ public class ProfileFragment extends Fragment {
                     // Show freelancer views and hide user views(boxes)
                     setFreelancerViewsVisibility(View.VISIBLE);
                     setUserViewsVisibility(View.GONE);
+                    age_Header.setVisibility(View.GONE);
+                    experience_Header.setVisibility(View.VISIBLE);
                     saveButton.setVisibility(View.VISIBLE);
 
                     //Log.e(TAG, "Freelacner found: " + this.user_or_freelancer_id);
