@@ -69,7 +69,12 @@ public class Directory extends AppCompatActivity {
             } else if (item.getItemId() == R.id.Messages) {
                 fragment = new MessagesFragment();
             } else if (item.getItemId() == R.id.Post) {
-                fragment = new PostFragment();
+                if (UserProfile_detected){
+                    fragment = new PostFragment();
+                }
+                else {
+                    Toast.makeText(this, "Make account to post job", Toast.LENGTH_SHORT).show();
+                }
             } else if (item.getItemId() == R.id.Profile) {
 
                 if (UserProfile_detected==true) {
