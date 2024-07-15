@@ -27,6 +27,7 @@ public class Directory extends AppCompatActivity {
     //private PostFragment Pfrag;
     private ProfileFragment profileFragment;
     //    private SettingsFragment Sfrag;
+    private PostFragment postFragment;
     private String user_or_freelancerID;
     private boolean UserProfile_detected;
 
@@ -69,9 +70,11 @@ public class Directory extends AppCompatActivity {
             } else if (item.getItemId() == R.id.Messages) {
                 fragment = new MessagesFragment();
             } else if (item.getItemId() == R.id.Post) {
-
-                if (UserProfile_detected){
-                    fragment = new PostFragment();
+                if (UserProfile_detected==true) {
+                    if (postFragment == null) {
+                        postFragment = PostFragment.newInstance(user_or_freelancerID);
+                    }
+                    fragment = postFragment;
                 }
                 else {
                     Toast.makeText(this, "Make account to post job", Toast.LENGTH_SHORT).show();
@@ -83,7 +86,8 @@ public class Directory extends AppCompatActivity {
                         profileFragment = ProfileFragment.newInstance(user_or_freelancerID);
                     }
                     fragment = profileFragment;
-                } else {
+                }
+                else {
                     Toast.makeText(this, "Profile not found", Toast.LENGTH_SHORT).show();
                     Intent register = new Intent(this, Activity_Register.class);
                     startActivity(register);
