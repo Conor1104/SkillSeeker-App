@@ -7,15 +7,21 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import com.zybooks.skillseekerapp.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PostFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+///**
+ //* A simple {@link Fragment} subclass.
+ //* Use the {@link PostFragment#newInstance} factory method to
+ //* create an instance of this fragment.
+ //*/
 public class PostFragment extends Fragment {
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,8 +33,9 @@ public class PostFragment extends Fragment {
     private String mParam2;
 
     public PostFragment() {
-        // Required empty public constructor
-    }
+        //Required empty public constructor
+}
+
 
     /**
      * Use this factory method to create a new instance of
@@ -57,10 +64,29 @@ public class PostFragment extends Fragment {
         }
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_post, container, false);
+
+        Spinner jobSpinner = view.findViewById(R.id.job_options_Spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                getContext(),
+                R.array.job_options,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jobSpinner.setAdapter(adapter);
+
+        return view;
+    }
+
+    /*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_post, container, false);
     }
+    */
 }

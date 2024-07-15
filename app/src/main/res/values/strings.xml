@@ -36,4 +36,32 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+
+    <!-- Add this array for job options spinner on Post Fragment-->
+    <string-array name="job_options">
+        <item>Accountant</item>
+        <item>Art</item>
+        <item>Automotive</item>
+        <item>Baby sitter</item>
+        <item>Business consultant</item>
+        <item>Carpentry</item>
+        <item>Computers</item>
+        <item>Concrete</item>
+        <item>Copywriter</item>
+        <item>Corporation</item>
+        <item>Data analyst</item>
+        <item> Dog walker</item>
+        <item>Electrical</item>
+        <item>Handyman</item>
+        <item>Marketing</item>
+        <item>Music</item>
+        <item>Painter</item>
+        <item>Photography</item>
+        <item>Plumbing</item>
+        <item>Roofing</item>
+        <item>Translator</item>
+        <item>Tutor</item>
+        <item>Videographer</item>
+    </string-array>
 </resources>
