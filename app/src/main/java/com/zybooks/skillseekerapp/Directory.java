@@ -69,6 +69,7 @@ public class Directory extends AppCompatActivity {
             } else if (item.getItemId() == R.id.Messages) {
                 fragment = new MessagesFragment();
             } else if (item.getItemId() == R.id.Post) {
+
                 if (UserProfile_detected){
                     fragment = new PostFragment();
                 }
