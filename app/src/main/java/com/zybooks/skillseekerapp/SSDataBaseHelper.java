@@ -155,5 +155,30 @@ public class SSDataBaseHelper {
             }
         });
     }
+
+    public void addJob(String userId, String name, String email, String phone, String jobCategory,String jobTitle, String date, String city, String description) {
+        Map<String, Object> job = new HashMap<>();
+        //Columns
+        job.put("user_id", userId);
+        job.put("name", name);
+        job.put("email", email);
+        job.put("phone", phone);
+        job.put("job_category", jobCategory);
+        job.put("job_title", jobTitle);
+        job.put("date", date);
+        job.put("city", city);
+        job.put("description", description);
+
+        db.collection("jobs")
+                .add(job)
+                .addOnSuccessListener(documentReference -> {
+                    //Successfully added job
+                })
+                .addOnFailureListener(e -> {
+                    //Failed to add job
+                });
+    }
+
+
 }
 
