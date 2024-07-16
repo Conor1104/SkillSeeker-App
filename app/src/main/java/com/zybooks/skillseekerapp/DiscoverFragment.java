@@ -113,7 +113,7 @@ public class DiscoverFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Job job = document.toObject(Job.class);
                             jobList.add(job);
-                            Log.d(TAG, "Job found: " + job.getJobTitle());
+                            Log.d(TAG, "Job found: " + job.getJob_title());
                         }
                         jobAdapter.notifyDataSetChanged();
                     } else {
