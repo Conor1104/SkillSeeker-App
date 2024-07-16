@@ -1,11 +1,10 @@
 package com.zybooks.skillseekerapp;
 
-import static android.content.ContentValues.TAG;
-
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import androidx.core.view.MenuProvider;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -35,6 +35,7 @@ public class DiscoverFragment extends Fragment {
     private JobAdapter jobAdapter;
     private List<Job> jobList;
     private SSDataBaseHelper dbHelper;
+    private SearchView searchView;
 
 
     private String mParam1;
@@ -44,22 +45,22 @@ public class DiscoverFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static DiscoverFragment newInstance(String param1, String param2) {
-        DiscoverFragment fragment = new DiscoverFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+//    public static DiscoverFragment newInstance(String param1, String param2) {
+//        DiscoverFragment fragment = new DiscoverFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
+
+    public static DiscoverFragment newInstance() {
+        return new DiscoverFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         Log.d(TAG, "onCreate called");
         setHasOptionsMenu(true); // Enable options menu
     }
@@ -77,14 +78,7 @@ public class DiscoverFragment extends Fragment {
 
         dbHelper = new SSDataBaseHelper();
 
-        return view;
-    }
-
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.toolbar_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.SearchButton);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-
+        searchView = view.findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -95,11 +89,15 @@ public class DiscoverFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                Log.d(TAG, "Search query text changed: " + newText); // Add this line
                 // Optionally handle text change events
                 return false;
             }
         });
+
+        return view;
     }
+
 
     private void searchJobs(String query) {
         Log.d(TAG, "searchJobs called with query: " + query);
@@ -113,7 +111,7 @@ public class DiscoverFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Job job = document.toObject(Job.class);
                             jobList.add(job);
-                            Log.d(TAG, "Job found: " + job.getJob_title());
+                            Log.d(TAG, "Job found: " + job.getJob_category());
                         }
                         jobAdapter.notifyDataSetChanged();
                     } else {
@@ -127,14 +125,14 @@ public class DiscoverFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume called");
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         Log.d(TAG, "onStop called");
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 }
 
