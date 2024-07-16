@@ -19,6 +19,10 @@ public class SSDataBaseHelper {
         db = FirebaseFirestore.getInstance();
     }
 
+    public FirebaseFirestore getDb() {
+        return db;
+    }
+
     //for adding Users to the User Database
     public void addUser(String name, String phone_num, String age, String user_password, String user_email) {
         Map<String, Object> user = new HashMap<>();
