@@ -127,15 +127,16 @@ public class DiscoverFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume called");
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         Log.d(TAG, "onStop called");
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }
+
 
 
