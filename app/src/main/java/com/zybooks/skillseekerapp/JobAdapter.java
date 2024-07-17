@@ -36,6 +36,8 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         holder.phoneTextView.setText(job.getPhone());
         holder.jobTitleTextView.setText(job.getJob_title());
         holder.cityTextView.setText(job.getCity());
+        holder.descriptionTextView.setText(job.getDescription());
+        holder.dateTextView.setText(job.getDate());
         // Set other fields similarly
     }
 
@@ -45,7 +47,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
     }
 
     static class JobViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTextView, emailTextView, phoneTextView, jobTitleTextView, cityTextView;
+        TextView nameTextView, emailTextView, phoneTextView, jobTitleTextView, cityTextView, descriptionTextView,dateTextView;
 
         public JobViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -54,6 +56,8 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
             phoneTextView = itemView.findViewById(R.id.phoneTextView);
             jobTitleTextView = itemView.findViewById(R.id.jobTitleTextView);
             cityTextView = itemView.findViewById(R.id.cityTextView);
+            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
+            dateTextView = itemView.findViewById(R.id.dateTextView);
             //Initialize other views similarly
         }
     }

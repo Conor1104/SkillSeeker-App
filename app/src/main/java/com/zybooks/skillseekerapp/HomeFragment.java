@@ -27,8 +27,8 @@ public class HomeFragment extends Fragment {
     private String mParam2;
 
     private RecyclerView recyclerView;
-    //private JobAdapter jobAdapter;
-    //private List<Job> jobList;
+    private JobAdapter jobAdapter;
+    private List<Job> jobList;
     private SSDataBaseHelper dbHelper;
 
     public HomeFragment() {
@@ -59,9 +59,9 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        //jobList = new ArrayList<>();
-        //jobAdapter = new JobAdapter(jobList);
-        //recyclerView.setAdapter(jobAdapter);
+        jobList = new ArrayList<>();
+        jobAdapter = new JobAdapter(jobList);
+        recyclerView.setAdapter(jobAdapter);
 
         dbHelper = new SSDataBaseHelper();
         fetchJobs();
@@ -75,12 +75,12 @@ public class HomeFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("jobs").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                //jobList.clear();
+                jobList.clear();
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    //Job job = document.toObject(Job.class);
-                    ///jobList.add(job);
+                    Job job = document.toObject(Job.class);
+                    jobList.add(job);
                 }
-                //jobAdapter.notifyDataSetChanged();
+                jobAdapter.notifyDataSetChanged();
             } else {
                 // Handle the error
             }
