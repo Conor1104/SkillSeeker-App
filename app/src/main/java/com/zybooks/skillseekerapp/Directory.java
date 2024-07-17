@@ -216,28 +216,28 @@ public class Directory extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-//
-//        MenuItem searchItem = menu.findItem(R.id.SearchButton);
-//        SearchView searchView = (SearchView) searchItem.getActionView();
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                //Handle search query submission
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                //Handles any search text changes
-//                return false;
-//            }
-//        });
-//
-//        return true;
-//    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.SearchButton);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Handle search query submission
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Handles any search text changes
+                return false;
+            }
+        });
+
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
