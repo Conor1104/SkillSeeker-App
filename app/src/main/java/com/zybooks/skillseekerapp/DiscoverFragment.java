@@ -32,8 +32,8 @@ public class DiscoverFragment extends Fragment {
 
     private static final String TAG = "DiscoverFragment";
     private RecyclerView recyclerView;
-    private JobAdapter jobAdapter;
-    private List<Job> jobList;
+    //private JobAdapter jobAdapter;
+    //private List<Job> jobList;
     private SSDataBaseHelper dbHelper;
     private SearchView searchView;
 
@@ -72,9 +72,9 @@ public class DiscoverFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        jobList = new ArrayList<>();
-        jobAdapter = new JobAdapter(jobList);
-        recyclerView.setAdapter(jobAdapter);
+        //jobList = new ArrayList<>();
+        //jobAdapter = new JobAdapter(jobList);
+        //recyclerView.setAdapter(jobAdapter);
 
         dbHelper = new SSDataBaseHelper();
 
@@ -107,13 +107,13 @@ public class DiscoverFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "Task successful");
-                        jobList.clear();
+                        //jobList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Job job = document.toObject(Job.class);
-                            jobList.add(job);
-                            Log.d(TAG, "Job found: " + job.getJob_category());
+                            //Job job = document.toObject(Job.class);
+                            //jobList.add(job);
+                            //Log.d(TAG, "Job found: " + job.getJob_category());
                         }
-                        jobAdapter.notifyDataSetChanged();
+                        //jobAdapter.notifyDataSetChanged();
                     } else {
                         Log.e(TAG, "Error getting documents: ", task.getException());
                         // Handle the error

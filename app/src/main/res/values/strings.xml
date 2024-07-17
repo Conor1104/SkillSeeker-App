@@ -36,6 +36,10 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="enterpassword">EnterPassword</string>
+    <string name="password" />
+    <string name="Username" />
+    <string name="EnterUsername" />
 
 
     <!-- Add this array for job options spinner on Post Fragment-->

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -39,8 +41,9 @@
         android:layout_height="48dp"
         android:layout_marginBottom="27dp"
         android:ems="10"
+        android:selectAllOnFocus="true"
         android:inputType="text"
-        android:text="Username or Freelancer Name"
+        android:hint="Username"
         app:layout_constraintBottom_toTopOf="@+id/passwordIntput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
@@ -52,8 +55,9 @@
         android:layout_height="48dp"
         android:layout_marginBottom="44dp"
         android:ems="10"
-        android:inputType="text"
-        android:text="Password"
+        android:selectAllOnFocus="true"
+        android:hint="Password"
+        android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.483"

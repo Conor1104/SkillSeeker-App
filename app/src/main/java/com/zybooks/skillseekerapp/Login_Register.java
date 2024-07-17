@@ -28,7 +28,8 @@ public class Login_Register extends AppCompatActivity {
     private EditText passwordInput;
 
 
-
+    //View.OnFocusChangeListener
+    //UsernameFreelancerInput.setSelectAllOnFocus(true)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,6 @@ public class Login_Register extends AppCompatActivity {
 
         UsernameFreelancerInput = findViewById(R.id.userName_FreelancerName_Input);
         passwordInput = findViewById(R.id.passwordIntput);
-
     }
 
     //Checks if login for if valid or unvaild user
