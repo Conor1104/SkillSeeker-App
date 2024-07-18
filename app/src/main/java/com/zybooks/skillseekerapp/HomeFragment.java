@@ -54,12 +54,14 @@ public class HomeFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            Log.d("HomeFragment", "onCreate called");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("HomeFragment", "onCreateView called");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -86,6 +88,7 @@ public class HomeFragment extends Fragment {
                 }
                 jobAdapter.notifyDataSetChanged();
             } else {
+                Log.e("HomeFragment", "Error fetching jobs", task.getException());
                 // Handle the error
             }
         });
