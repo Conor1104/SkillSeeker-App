@@ -33,6 +33,21 @@
             android:layout_gravity="start"
             android:layout_marginBottom="8dp"/>
 
+        <EditText
+            android:id="@+id/userIdInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Enter UserId"/>
+
+        <Button
+            android:id="@+id/searchUserButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:layout_gravity="end" />
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/messagesRecyclerView"
             android:layout_width="match_parent"

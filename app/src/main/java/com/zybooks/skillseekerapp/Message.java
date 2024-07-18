@@ -7,15 +7,17 @@ public class Message {
     private String sender;
     private String content;
     private Date timestamp;
+    private String receiver;
 
     public Message() {
         // Default constructor
     }
 
-    public Message(String sender, String content, Date timestamp) {
+    public Message(String sender, String content, Date timestamp, String receiver) {
         this.sender = sender;
         this.content = content;
         this.timestamp = timestamp;
+        this.receiver = receiver;
     }
 
     // Getters and setters
@@ -42,4 +44,13 @@ public class Message {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
 }
+

@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment {
 
                 activity.getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frameLayout, messagesFragment) // Replace with your fragment container ID
+                        .replace(R.id.main_container, messagesFragment) // Replace with your fragment container ID
                         .addToBackStack(null)
                         .commit();
 

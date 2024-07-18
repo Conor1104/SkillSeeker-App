@@ -17,18 +17,19 @@
         app:titleMarginStart="30dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+        app:layout_constraintBottom_toTopOf="@+id/main_container"
         app:menu="@menu/toolbar_menu"/>
 
     <FrameLayout
 
-        android:id="@+id/frameLayout"
+        android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_menu"/>
+<!--        app:layout_constraintEnd_toStartOf="parent"-->
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

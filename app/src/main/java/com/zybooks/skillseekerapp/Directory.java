@@ -54,7 +54,7 @@ public class Directory extends AppCompatActivity {
         } else {
             //For guest user, handled navigation without profile access
             UserProfile_detected = false;
-            replaceFragment(new HomeFragment());
+            replaceFragment(new HomeFragment(), false);
         }
 
 
@@ -95,7 +95,7 @@ public class Directory extends AppCompatActivity {
             }
 
             if (fragment != null) {
-                replaceFragment(fragment);
+                replaceFragment(fragment, true);
                 return true;
             }
             return false;
@@ -171,7 +171,7 @@ public class Directory extends AppCompatActivity {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
                     UserProfile_detected = true;
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new HomeFragment(), false);
                 } else {
                     // Freelancer profile not found but continues checking for user profile
                     checkUserProfile(user_or_freelancerID);
@@ -180,7 +180,7 @@ public class Directory extends AppCompatActivity {
                 Log.e(TAG, "Error fetching freelancer profile: ", task.getException());
                 // Handle error scenario
                 UserProfile_detected = false;
-                replaceFragment(new HomeFragment());
+                replaceFragment(new HomeFragment(), false);
             }
         });
     }
@@ -192,27 +192,31 @@ public class Directory extends AppCompatActivity {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
                     UserProfile_detected = true;
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new HomeFragment(), false);
                 } else {
                     // Neither freelancer nor user profile found
                     UserProfile_detected = false;
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new HomeFragment(), false);
                 }
             } else {
                 Log.e(TAG, "Error fetching user profile: ", task.getException());
                 //Handle error scenario
                 UserProfile_detected = false;
-                replaceFragment(new HomeFragment());
+                replaceFragment(new HomeFragment(), false);
             }
         });
     }
 
 
-    private void replaceFragment(Fragment fragment) {
+    private void replaceFragment(Fragment fragment, boolean addToBackStack) {
 
+        Log.d(TAG, "Replacing fragment with " + fragment.getClass().getSimpleName());
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.replace(R.id.main_container, fragment);
+        if (addToBackStack) {
+            fragmentTransaction.addToBackStack(null);
+        }
         fragmentTransaction.commit();
     }
 
