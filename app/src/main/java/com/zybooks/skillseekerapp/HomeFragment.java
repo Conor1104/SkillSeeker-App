@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,9 +117,13 @@ public class HomeFragment extends Fragment {
             contactButton = itemView.findViewById(R.id.contactButton);
 
             contactButton.setOnClickListener(v -> {
+                Log.d("JobViewHolder", "Contact button clicked");
+
                 // Navigate to MessagesFragment
                 Job job = jobList.get(getAdapterPosition());
                 String posterUserId = job.getPosterUserId();
+                Log.d("JobViewHolder", "Poster UserId: " + posterUserId);
+
 
                 Bundle bundle = new Bundle();
                 bundle.putString("posterUserId", posterUserId);
@@ -126,11 +132,16 @@ public class HomeFragment extends Fragment {
                 MessagesFragment messagesFragment = new MessagesFragment();
                 messagesFragment.setArguments(bundle);
 
+                Log.d("HomeFragment", "Navigating to MessagesFragment");
+
                 activity.getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frameLayout, messagesFragment) // Replace with your fragment container ID
                         .addToBackStack(null)
                         .commit();
+
+                Log.d("HomeFragment", "Transaction committed");
+                Log.d("JobViewHolder", "Navigated to MessagesFragment");
             });
         }
     }
