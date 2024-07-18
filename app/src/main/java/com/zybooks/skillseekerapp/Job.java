@@ -10,11 +10,12 @@ public class Job {
     private String date;
     private String city;
     private String description;
+    private String posterUserId;
 
     // Default constructor required for Firestore
     public Job() {}
 
-    public Job(String user_Id, String name, String email, String phone, String job_category, String job_title, String date, String city, String description) {
+    public Job(String user_Id, String name, String email, String phone, String job_category, String job_title, String date, String city, String description, String posterUserId) {
         this.user_Id = user_Id;
         this.name = name;
         this.email = email;
@@ -24,6 +25,7 @@ public class Job {
         this.date = date;
         this.city = city;
         this.description = description;
+        this.posterUserId = posterUserId;
     }
 
     // Getters and Setters
@@ -98,4 +100,13 @@ public class Job {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getPosterUserId() {
+        return posterUserId;
+    }
+
+    public void setPosterUserId(String posterUserId) {
+        this.posterUserId = posterUserId;
+    }
+
 }

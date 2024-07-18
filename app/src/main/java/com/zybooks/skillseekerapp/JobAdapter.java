@@ -1,9 +1,14 @@
 package com.zybooks.skillseekerapp;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.zybooks.skillseekerapp.Job;
 
@@ -16,9 +21,11 @@ import java.util.List;
 
 public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
     private List<Job> jobList;
+    private Context context;
 
-    public JobAdapter(List<Job> jobList) {
+    public JobAdapter(List<Job> jobList, Context context) {
         this.jobList = jobList;
+        this.context = context;
     }
 
     @NonNull
@@ -39,6 +46,23 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         holder.descriptionTextView.setText(job.getDescription());
         holder.dateTextView.setText(job.getDate());
         // Set other fields similarly
+
+        holder.contactButton.setOnClickListener(v -> {
+            // Navigate to MessagesFragment
+            Bundle bundle = new Bundle();
+            bundle.putString("posterUserId", job.getPosterUserId());
+
+            AppCompatActivity activity = (AppCompatActivity) context;
+            MessagesFragment messagesFragment = new MessagesFragment();
+            messagesFragment.setArguments(bundle);
+
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frameLayout, messagesFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
     }
 
     @Override
@@ -48,6 +72,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 
     static class JobViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView, emailTextView, phoneTextView, jobTitleTextView, cityTextView, descriptionTextView,dateTextView;
+        Button contactButton;
 
         public JobViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -58,6 +83,8 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
             cityTextView = itemView.findViewById(R.id.cityTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
+
+            contactButton = itemView.findViewById(R.id.contactButton);
             //Initialize other views similarly
         }
     }

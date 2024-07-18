@@ -14,6 +14,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.zybooks.skillseekerapp.R;
 import java.util.ArrayList;
 import java.util.List;
+import android.widget.Button;
+
 
 
 public class HomeFragment extends Fragment {
@@ -60,7 +62,7 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         jobList = new ArrayList<>();
-        jobAdapter = new JobAdapter(jobList);
+        jobAdapter = new JobAdapter(jobList, getContext());
         recyclerView.setAdapter(jobAdapter);
 
         dbHelper = new SSDataBaseHelper();
@@ -94,6 +96,7 @@ public class HomeFragment extends Fragment {
             ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         }
     }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -101,4 +104,35 @@ public class HomeFragment extends Fragment {
             ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         }
     }
+
+    public  class JobViewHolder extends RecyclerView.ViewHolder {
+
+        Button contactButton;
+
+        public JobViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            contactButton = itemView.findViewById(R.id.contactButton);
+
+            contactButton.setOnClickListener(v -> {
+                // Navigate to MessagesFragment
+                Job job = jobList.get(getAdapterPosition());
+                String posterUserId = job.getPosterUserId();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("posterUserId", posterUserId);
+
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                MessagesFragment messagesFragment = new MessagesFragment();
+                messagesFragment.setArguments(bundle);
+
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, messagesFragment) // Replace with your fragment container ID
+                        .addToBackStack(null)
+                        .commit();
+            });
+        }
+    }
 }
+

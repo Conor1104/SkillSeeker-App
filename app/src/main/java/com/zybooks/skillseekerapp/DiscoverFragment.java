@@ -73,7 +73,7 @@ public class DiscoverFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         jobList = new ArrayList<>();
-        jobAdapter = new JobAdapter(jobList);
+        jobAdapter = new JobAdapter(jobList, getContext());
         recyclerView.setAdapter(jobAdapter);
 
         dbHelper = new SSDataBaseHelper();
