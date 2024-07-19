@@ -15,7 +15,7 @@
 
     <Button
         android:id="@+id/filter"
-        android:layout_width="361dp"
+        android:layout_width="115dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_marginTop="16dp"
@@ -30,5 +30,13 @@
         android:layout_width="match_parent"
         android:layout_height="588dp"
         android:layout_marginTop="80dp" />
+
+    <Spinner
+        android:id="@+id/job_options_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="10dp" />
 
 </FrameLayout>
