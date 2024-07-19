@@ -81,6 +81,7 @@ public class Directory extends AppCompatActivity {
                     fragmentTransaction.add(R.id.main_container,messagesFragment);
                     fragmentTransaction.commit();
                 }
+                fragment = messagesFragment;
 
                 //fragment = new MessagesFragment();
                 //This is trying to create a new instance of the fragment

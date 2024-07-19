@@ -82,7 +82,7 @@ public class MessagesFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d("MessagesFragment", "onCreateView called");
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
-        //ListView chatListView = view.findViewById(R.id.chat_list);
+        ListView chatListView = view.findViewById(R.id.chat_list);
 
         conversationTitle = view.findViewById(R.id.conversationTitle);
         messagesRecyclerView = view.findViewById(R.id.messagesRecyclerView);
@@ -95,9 +95,9 @@ public class MessagesFragment extends Fragment {
 
 
         //Chat Stuff
-        //List<String> chatList = new ArrayList<>();
-        //ArrayAdapter<String> chatAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, chatList);
-        //chatListView.setAdapter(chatAdapter);
+        List<String> chatList = new ArrayList<>();
+        ArrayAdapter<String> chatAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, chatList);
+        chatListView.setAdapter(chatAdapter);
 
 
 
@@ -113,6 +113,7 @@ public class MessagesFragment extends Fragment {
                 transaction.commit();
             }
         }); Useless Anonymous Code
+        */
 
         chatListView.setOnItemClickListener((parent, view1, position, id) -> {
             // Replace with ChatFragment using the selected chat item
@@ -124,7 +125,7 @@ public class MessagesFragment extends Fragment {
             transaction.commit();
         });
         return view;}
-        */
+        //*/
 
         //return view;
 
@@ -132,7 +133,7 @@ public class MessagesFragment extends Fragment {
 //        conversationTitle.setText("Conversation with: " + posterUserId);
 
         /*
-        // Initialize the RecyclerView (set LayoutManager, Adapter, etc.)
+        //Initialize the RecyclerView (set LayoutManager, Adapter, etc.)
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         // messagesRecyclerView.setAdapter(new MessagesAdapter()); // Set your adapter here
         messagesRecyclerView.setAdapter(messagesAdapter);
@@ -239,5 +240,5 @@ public class MessagesFragment extends Fragment {
                     });
 
         }
-    */ return view;}
+    */ //return view;}
 }
