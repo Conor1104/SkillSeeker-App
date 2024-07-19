@@ -7,5 +7,6 @@ public class ModalFreelancer {
     public String freelancer_email;
     public String freelancerPassword;
     public String freelancer_phone;
-    //public String starReview;
+    public int star_review;
+
 }

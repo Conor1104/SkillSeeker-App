@@ -5,5 +5,5 @@ import android.os.Bundle;
 public class ModalUser {
     public String user_id;
     public String name, phone_num, age, user_password, user_email;
-
+    public int star_review;
 }

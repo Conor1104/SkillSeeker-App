@@ -35,6 +35,8 @@ public class Activity_Register extends AppCompatActivity {
     private EditText freelancerEmailInput;
     private EditText freelancerPhoneNumberInput;
 
+    private int star_reviewInput = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,10 +74,11 @@ public class Activity_Register extends AppCompatActivity {
                 String age = ageInput.getText().toString();
                 String user_password = userPassword.getText().toString();
                 String user_email = userEmail.getText().toString();
+                int star_review = star_reviewInput;
 
                 //Error handling
                 if (!name.isEmpty() && !phone.isEmpty() && !age.isEmpty() && !user_password.isEmpty() && !user_email.isEmpty()) {
-                    addUserToFirestore(name, phone, age, user_password, user_email);//Calls the method to add the User
+                    addUserToFirestore(name, phone, age, user_password, user_email, star_review);//Calls the method to add the User
                     Toast.makeText(Activity_Register.this, "User added", Toast.LENGTH_SHORT).show();
                     clearInputs();
                     //Will take the User to the login page to login to there new account
@@ -96,11 +99,12 @@ public class Activity_Register extends AppCompatActivity {
                 String freelancer_email = freelancerEmailInput.getText().toString();
                 //String review_stars = freelancerReviewInput.getText().toString();
                 String freelancer_password = freelancerPasswordInput.getText().toString();
-                String freelancer_phone = freelancerPhoneNumberInput.getText().toString() ;
+                String freelancer_phone = freelancerPhoneNumberInput.getText().toString();
+                int star_review = star_reviewInput;
 
                 //Error handling
                 if (!freelancer_name.isEmpty() && !experience.isEmpty() && !freelancer_email.isEmpty() && !freelancer_password.isEmpty() && !freelancer_phone.isEmpty()) {
-                    addFreelancerToFirestore(freelancer_name, experience, freelancer_email, freelancer_password, freelancer_phone); //Calls the method to add the Freelancer
+                    addFreelancerToFirestore(freelancer_name, experience, freelancer_email, freelancer_password, freelancer_phone, star_review); //Calls the method to add the Freelancer
                     Toast.makeText(Activity_Register.this, "Freelancer added", Toast.LENGTH_SHORT).show();
                     clearInputs();
                     //Will take the Freelancer to the login page to login to there new account
@@ -113,14 +117,14 @@ public class Activity_Register extends AppCompatActivity {
     }
 
         //Test for fetching and logging users
-        private void addUserToFirestore(String name, String phone, String age, String password, String email) {
+        private void addUserToFirestore(String name, String phone, String age, String password, String email, int star_review) {
             Map<String, Object> user = new HashMap<>(); //Data is Hashed(Security)
             user.put("name", name);
             user.put("phone_num", phone);
             user.put("age", age);
             user.put("user_password", password);
             user.put("user_email", email);
-            user.put("star_review",0);
+            user.put("star_review",star_review);
 
 
             db.collection("users")
@@ -135,7 +139,7 @@ public class Activity_Register extends AppCompatActivity {
                     });
         }
 
-        private void addFreelancerToFirestore(String name, String experience, String email, String password, String phone) {
+        private void addFreelancerToFirestore(String name, String experience, String email, String password, String phone, int star_review) {
             Map<String, Object> freelancer = new HashMap<>();
             freelancer.put("freelancer_name", name);
             freelancer.put("freelancer_exp", experience);
@@ -143,7 +147,7 @@ public class Activity_Register extends AppCompatActivity {
             //freelancer.put("review_stars", reviewStars);
             freelancer.put("freelancer_password", password);
             freelancer.put("freelancer_phone", phone);
-            freelancer.put("star_review",0);
+            freelancer.put("star_review",star_review);
 
 
             db.collection("freelancers")
@@ -163,6 +167,7 @@ public class Activity_Register extends AppCompatActivity {
         nameInput.setText("");
         phoneInput.setText("");
         ageInput.setText("");
+        star_reviewInput = 0;
         userPassword.setText("");
         userEmail.setText("");
     }
@@ -170,7 +175,8 @@ public class Activity_Register extends AppCompatActivity {
     private void clearFreelancerInputs() {
         freelancerNameInput.setText("");
         freelancerExpInput.setText("");
-        freelancerReviewInput.setText("");
+        star_reviewInput = 0;
+        //freelancerReviewInput.setText("");
         freelancerPasswordInput.setText("");
     }
     //test dummy
@@ -186,11 +192,7 @@ public class Activity_Register extends AppCompatActivity {
             Log.d("User info ", "Name " + data.get(i).name + " Phone Num " + data.get(i).phone_num + " Age " + data.get(i).age);
         }*/
 
-    //Button
-    public void goto_login_page(){
-        Intent intent = new Intent (this, Login_Register.class);
-        startActivity(intent);
-    }
+
 
     //Button
     public void goto_main(View view){
@@ -198,11 +200,18 @@ public class Activity_Register extends AppCompatActivity {
         startActivity(intent);
     } // Goes to main login screen (Method For Back Button)
 
+    //Button
+    public void goto_login_page(){
+        Intent intent = new Intent (this, Login_Register.class);
+        startActivity(intent);
+    }
+/*
     public void goto_guest_directory(View view) {
         Intent intent = new Intent(this, Directory.class);
         startActivity(intent);
     }
 
+*/
 
 
 

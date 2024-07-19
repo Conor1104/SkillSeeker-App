@@ -250,16 +250,16 @@ public class ProfileFragment extends Fragment {
                     String name = document.getString("freelancer_name");
                     String phone = document.getString("freelancer_phone");
                     String email = document.getString("freelancer_email");
-                    int star_review = (Objects.requireNonNull(document.getLong("star_review"))).intValue();
+                    int star_review = document.getLong("star_review").intValue();
                     updateStarRating(star_review);
-                    String stars = document.getString("review_stars");
+                    //String stars = document.getString("review_stars");
 
                     //Update UI with user profile information
                     nameFreelancerEditText.setText(name);
                     experinceEditText.setText(experience);
                     freelancer_phoneEditText.setText(phone);
                     freelancer_emailEditText.setText(email);
-                    //starsEditText.setText(String.valueOf(star_review));//Converts int to String
+                    starsEditText.setText(String.valueOf(star_review)); //Converts int to String
                     //starsEditText.setText("Star Rating: "+stars);
 
 
