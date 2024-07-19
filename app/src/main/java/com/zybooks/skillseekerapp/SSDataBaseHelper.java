@@ -24,7 +24,7 @@ public class SSDataBaseHelper {
     }
 
     //for adding Users to the User Database
-    public void addUser(String name, String phone_num, String age, String user_password, String user_email) {
+    public void addUser(String name, String phone_num, String age, String user_password, String user_email, int star_review) {
         Map<String, Object> user = new HashMap<>();
         //Columns
         user.put("name", name);
@@ -32,6 +32,7 @@ public class SSDataBaseHelper {
         user.put("age", age);
         user.put("user_password", user_password);
         user.put("user_email", user_email);
+        user.put("star_review", star_review);
 
         db.collection("users")
                 .add(user)
@@ -44,7 +45,7 @@ public class SSDataBaseHelper {
     }
 
     //for adding Freelancers to the User Database
-    public void addFreelancer(String freelancer_name, String freelancer_exp, String freelancer_email, String freelancer_password, String freelancer_phonenumber) {
+    public void addFreelancer(String freelancer_name, String freelancer_exp, String freelancer_email, String freelancer_password, String freelancer_phonenumber, int star_review) {
         Map<String, Object> freelancer = new HashMap<>();
         //Columns
         freelancer.put("freelancer_name", freelancer_name);
@@ -52,6 +53,7 @@ public class SSDataBaseHelper {
         freelancer.put("freelancer_email", freelancer_email);
         freelancer.put("freelancer_password", freelancer_password);
         freelancer.put("freelancer_phonenumber", freelancer_phonenumber);
+        freelancer.put("star_review", star_review);
         //freelancer.put("review_stars", review_stars);
 
         db.collection("freelancers")
@@ -79,13 +81,14 @@ public class SSDataBaseHelper {
     }
 
     //Update User
-    public void updateUser(String userId, String name, String phone_num, String age, String user_password, String user_email) {
+    public void updateUser(String userId, String name, String phone_num, String age, String user_password, String user_email, int star_review) {
         Map<String, Object> updates = new HashMap<>();
         if (name != null) updates.put("name", name);
         if (phone_num != null) updates.put("phone_num", phone_num);
         if (age != null) updates.put("age", age);
         if (user_password != null) updates.put("user_password", user_password);
         if (user_email != null) updates.put("user_email", user_email);
+        if (star_review != 0) updates.put("star_review", star_review);
 
         db.collection("users").document(userId)
                 .update(updates)
@@ -98,14 +101,14 @@ public class SSDataBaseHelper {
     }
 
     //Update Freelancer
-    public void updateFreelancer(String freelancerId, String freelancer_name, String freelancer_exp, String freelancer_email, String freelancer_password, String freelancer_phonenumber) {
+    public void updateFreelancer(String freelancerId, String freelancer_name, String freelancer_exp, String freelancer_email, String freelancer_password, String freelancer_phonenumber, int star_review) {
         Map<String, Object> updates = new HashMap<>();
         if (freelancer_name != null) updates.put("freelancer_name", freelancer_name);
         if (freelancer_exp != null) updates.put("freelancer_exp", freelancer_exp);
         if (freelancer_email != null) updates.put("freelancer_email", freelancer_email);
         if (freelancer_password != null) updates.put("freelancer_password", freelancer_password);
         if (freelancer_phonenumber != null) updates.put("freelancer_phonenumber", freelancer_phonenumber);
-        //if (review_stars != null) updates.put("review_stars", review_stars);
+        if(star_review != 0) updates.put("star_review", star_review);
 
         db.collection("freelancers").document(freelancerId)
                 .update(updates)
@@ -129,6 +132,7 @@ public class SSDataBaseHelper {
                     user.age = document.getString("age");
                     user.user_password = document.getString("user_password");
                     user.user_email = document.getString("user_email");
+                    user.star_review = document.getLong("star_review").intValue();
                     userList.add(user);
                 }
                 //Use userList
@@ -150,6 +154,7 @@ public class SSDataBaseHelper {
                     freelancer.freelancer_email = document.getString("freelancer_email");
                     freelancer.freelancerPassword = document.getString("freelancer_password");
                     freelancer.freelancer_phone = document.getString("freelancer_phonenumber");
+                    freelancer.star_review = document.getLong("star_review").intValue();
                     //freelancer.starReview = document.getString("review_stars");
                     freelancerList.add(freelancer);
                 }
