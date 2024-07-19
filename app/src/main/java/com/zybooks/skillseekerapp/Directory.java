@@ -73,15 +73,15 @@ public class Directory extends AppCompatActivity {
                 fragment = new HomeFragment();
             } else if (item.getItemId() == R.id.Discover) {
                 fragment = new DiscoverFragment();
-            } else if (item.getItemId() == R.id.Messages) {
-                if(messagesFragment== null){
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    messagesFragment = new MessagesFragment();
-                    fragmentTransaction.add(R.id.main_container,messagesFragment);
-                    fragmentTransaction.commit();
-                }
-                fragment = messagesFragment;
+//            } else if (item.getItemId() == R.id.Messages) {
+//                if(messagesFragment== null){
+//                    FragmentManager fragmentManager = getSupportFragmentManager();
+//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                    messagesFragment = new MessagesFragment();
+//                    fragmentTransaction.add(R.id.main_container,messagesFragment);
+//                    fragmentTransaction.commit();
+//                }
+//                fragment = messagesFragment;
 
                 //fragment = new MessagesFragment();
                 //This is trying to create a new instance of the fragment

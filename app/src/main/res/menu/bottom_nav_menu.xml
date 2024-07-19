@@ -19,12 +19,12 @@
         android:layout_height="wrap_content"
         android:title="Post"
         android:icon="@drawable/post"/>
-    <item
-        android:id="@+id/Messages"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="Messages"
-        android:icon="@drawable/messages"/>
+<!--    <item-->
+<!--        android:id="@+id/Messages"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:title="Messages"-->
+<!--        android:icon="@drawable/messages"/>-->
 
     <item
         android:id="@+id/Profile"
