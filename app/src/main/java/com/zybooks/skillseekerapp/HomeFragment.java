@@ -3,6 +3,7 @@ package com.zybooks.skillseekerapp;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 
 public class HomeFragment extends Fragment {
@@ -40,6 +42,7 @@ public class HomeFragment extends Fragment {
 
     private Button filterButton;
     private Spinner job_category;
+    private SwitchCompat UserOrFreelancer;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -72,7 +75,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         filterButton = view.findViewById(R.id.filter); //// Find the filter button
-
+        UserOrFreelancer = view.findViewById(R.id.UserOrFreelancer); //Finds the switch button
         //Job Category Selector
         job_category = view.findViewById(R.id.job_options_home);
         job_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -89,6 +92,15 @@ public class HomeFragment extends Fragment {
                 // Do nothing
             }
         });
+
+        UserOrFreelancer.setOnCheckedChangeListener((SwitchCompat, isChecked) -> {
+                    if (isChecked) {
+                        showFreelancers(UserOrFreelancer);
+                    }
+                    else {
+                        showFreelancers(UserOrFreelancer);
+                    }
+                });
 
 
 
@@ -127,6 +139,31 @@ public class HomeFragment extends Fragment {
         return view; // return the inflated view
     }
 
+
+    private void showFreelancers(SwitchCompat UserOrFreelancer) {
+
+            //boolean showFreelancers = UserOrFreelancer.isChecked();
+        if (UserOrFreelancer.isChecked()) {
+            // Show freelancers
+            Log.d("HomeFragment", "showFreelancers called");
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("freelancers").get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    jobList.clear();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Job job = document.toObject(Job.class);
+                        jobList.add(job);
+                    }
+                    jobAdapter.notifyDataSetChanged();
+                }
+                else {
+                    Log.e("HomeFragment", "Error fetching freelancers", task.getException());
+                    // Handle the error
+                }
+            });
+        }
+
+    }
     private void filterJobs(String criteria) {
         FirebaseFirestore fj = FirebaseFirestore.getInstance();
         fj.collection("jobs").whereEqualTo("job_category", criteria).get().addOnCompleteListener(task -> {
