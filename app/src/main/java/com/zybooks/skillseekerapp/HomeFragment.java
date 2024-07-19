@@ -35,6 +35,8 @@ public class HomeFragment extends Fragment {
     private List<Job> jobList;
     private SSDataBaseHelper dbHelper;
 
+    private Button filterButton;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -58,23 +60,46 @@ public class HomeFragment extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d("HomeFragment", "onCreateView called");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        filterButton = view.findViewById(R.id.filter); //// Find the filter button
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String filterCriteria = "Automotive";
+                filterJobs(filterCriteria);
+            }
+        });
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         jobList = new ArrayList<>();
         jobAdapter = new JobAdapter(jobList, getContext());
         recyclerView.setAdapter(jobAdapter);
 
+
         dbHelper = new SSDataBaseHelper();
         fetchJobs();
+
 
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_home, container, false);
         return view; // return the inflated view
+    }
+
+    private void filterJobs(String criteria) {
+        List<Job> filteredJobs = new ArrayList<>();
+        for (Job job : jobList) {
+            if (job.getJob_title().contains(criteria) || job.getCity().contains(criteria)) {
+                filteredJobs.add(job);
+            }
+        }
+        jobAdapter = new JobAdapter(filteredJobs, getContext());
+        recyclerView.setAdapter(jobAdapter);
+        jobAdapter.notifyDataSetChanged();
     }
 
     private void fetchJobs() {

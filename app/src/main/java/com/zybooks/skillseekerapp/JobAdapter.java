@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+
 import java.util.List;
 
 public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
@@ -37,6 +38,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
     public JobViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.job_posting, parent, false);
         return new JobViewHolder(view);
+
     }
 
     @Override
@@ -85,6 +87,8 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         });
 
     }
+
+
     private void fetchStarRating(String userId, StarView star1, StarView star2, StarView star3, StarView star4, StarView star5) {
         if (userId == null || userId.isEmpty()) {
             //Handling the case where userId is null or empty
