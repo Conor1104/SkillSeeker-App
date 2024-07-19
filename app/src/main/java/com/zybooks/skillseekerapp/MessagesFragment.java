@@ -82,6 +82,8 @@ public class MessagesFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d("MessagesFragment", "onCreateView called");
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
+        View view2 = inflater.inflate(R.layout.fragment_chat, container, false); //This was the other chat fragment you can see the xml and preview it
+        //Can take some of the xml elements like the button and move it to the original fragment_messages.xml if you want to
         ListView chatListView = view.findViewById(R.id.chat_list);
 
         conversationTitle = view.findViewById(R.id.conversationTitle);
@@ -124,7 +126,8 @@ public class MessagesFragment extends Fragment {
             transaction.addToBackStack(null);
             transaction.commit();
         });
-        return view;}
+        return view;} // Returns the fragment_messages xml file. not the fragment_chat xml file that one is view2
+        //Commented out the original code, regardless we might have to change it entirely if not just erase my code and reactive your old code
         //*/
 
         //return view;
