@@ -16,8 +16,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.zybooks.skillseekerapp.R;
 import java.util.ArrayList;
 import java.util.List;
-import android.widget.Button;
 
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 
 
 public class HomeFragment extends Fragment {
@@ -36,6 +38,7 @@ public class HomeFragment extends Fragment {
     private SSDataBaseHelper dbHelper;
 
     private Button filterButton;
+    private Spinner job_category;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -74,6 +77,14 @@ public class HomeFragment extends Fragment {
                 filterJobs(filterCriteria);
             }
         });
+        job_category = view.findViewById(R.id.job_options_home);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.job_options,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        job_category.setAdapter(adapter);
+
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         jobList = new ArrayList<>();
