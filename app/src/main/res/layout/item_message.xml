@@ -6,12 +6,27 @@
     android:padding="8dp">
 
     <TextView
+        android:id="@+id/messageSender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:text="Sender" />
+
+    <TextView
         android:id="@+id/messageContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Message content"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:text="Message content" />
 
-    <!-- Add other views if necessary -->
+    <TextView
+        android:id="@+id/messageTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:text="Timestamp" />
 
 </LinearLayout>

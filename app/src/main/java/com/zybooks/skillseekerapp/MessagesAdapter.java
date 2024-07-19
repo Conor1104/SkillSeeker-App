@@ -1,5 +1,6 @@
 package com.zybooks.skillseekerapp;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.MessageViewHolder> {
     private List<Message> messageList;
@@ -27,6 +30,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message message = messageList.get(position);
+        Log.d("MessagesAdapter", "Binding message at position " + position);
+        holder.bind(message);
         holder.bind(message);
     }
 
@@ -37,17 +42,22 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         private TextView messageContent;
-        // Add other views if necessary
+        private TextView messageSender;
+        private TextView messageTimestamp;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
             messageContent = itemView.findViewById(R.id.messageContent);
-            // Initialize other views if necessary
+            messageSender = itemView.findViewById(R.id.messageSender);
+            messageTimestamp = itemView.findViewById(R.id.messageTimestamp);
         }
 
         public void bind(Message message) {
             messageContent.setText(message.getContent());
-            // Bind other views if necessary
+            messageSender.setText(message.getSender()); // Optional: Display sender
+            // Format timestamp if needed
+            messageTimestamp.setText(new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.getDefault()).format(message.getTimestamp()));
         }
     }
 }
+

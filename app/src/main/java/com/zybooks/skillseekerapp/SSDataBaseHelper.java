@@ -1,6 +1,7 @@
 
 package com.zybooks.skillseekerapp;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -186,6 +187,25 @@ public class SSDataBaseHelper {
                 .addOnFailureListener(e -> {
                     //Failed to add job
                 });
+    }
+    public void addMessage(Message message) {
+        db.collection("messages")
+                .add(message)
+                .addOnSuccessListener(documentReference -> {
+                    // Successfully added message
+                })
+                .addOnFailureListener(e -> {
+                    // Failed to add message
+                });
+    }
+
+    public void fetchMessages(String sender, String receiver, OnCompleteListener<QuerySnapshot> onCompleteListener) {
+        db.collection("messages")
+                .whereEqualTo("sender", sender)
+                .whereEqualTo("receiver", receiver)
+                .orderBy("timestamp", Query.Direction.ASCENDING)
+                .get()
+                .addOnCompleteListener(onCompleteListener);
     }
 
 

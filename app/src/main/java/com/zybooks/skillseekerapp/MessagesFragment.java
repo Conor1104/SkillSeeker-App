@@ -1,30 +1,27 @@
 package com.zybooks.skillseekerapp;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
-//import android.os.Message;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.DialogInterface;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,33 +34,31 @@ import java.util.List;
  */
 public class MessagesFragment extends Fragment {
 
-
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "MessagesFragment";
 
     private String posterUserId;
     private TextView conversationTitle;
     private RecyclerView messagesRecyclerView;
     private EditText messageInput;
     private Button sendButton;
-    private EditText userIdInput;
-    private Button searchUserButton;
-
-    private String sender;
-    private String content;
-    private Date timestamp;
+    private Button startConversationButton;
 
     private List<Message> messageList;
     private MessagesAdapter messagesAdapter;
-    private SSDataBaseHelper dbHelper;
+
+    private FirebaseFirestore db;
+    private String currentUserEmail;
+    private String receiverUserEmail;
 
     public MessagesFragment() {
         // Required empty public constructor
     }
 
-    public static MessagesFragment newInstance(String param1) {
+    public static MessagesFragment newInstance(String receiverUserEmail) {
         MessagesFragment fragment = new MessagesFragment();
         Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, receiverUserEmail);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,62 +66,157 @@ public class MessagesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelper = new SSDataBaseHelper();
-//        if (getArguments() != null) {
-//            posterUserId = getArguments().getString("posterUserId");
-//        }
+        if (getArguments() != null) {
+            receiverUserEmail = getArguments().getString(ARG_PARAM1);
+        }
+        currentUserEmail = getCurrentUserEmail();
+        db = FirebaseFirestore.getInstance(); // Initialize FirebaseFirestore
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d("MessagesFragment", "onCreateView called");
         View view = inflater.inflate(R.layout.fragment_messages, container, false);
-        View view2 = inflater.inflate(R.layout.fragment_chat, container, false); //This was the other chat fragment you can see the xml and preview it
-        //Can take some of the xml elements like the button and move it to the original fragment_messages.xml if you want to
-        ListView chatListView = view.findViewById(R.id.chat_list);
+
+        if (view == null) {
+            Log.e(TAG, "Failed to inflate layout");
+            return null;
+        }
 
         conversationTitle = view.findViewById(R.id.conversationTitle);
         messagesRecyclerView = view.findViewById(R.id.messagesRecyclerView);
         messageInput = view.findViewById(R.id.messageInput);
         sendButton = view.findViewById(R.id.sendButton);
+        startConversationButton = view.findViewById(R.id.startConversationButton);
+
+        if (conversationTitle == null || messagesRecyclerView == null ||
+                messageInput == null || sendButton == null || startConversationButton == null) {
+            Log.e(TAG, "One or more views not found");
+        }
+
         messageList = new ArrayList<>();
         messagesAdapter = new MessagesAdapter(messageList);
-        userIdInput = view.findViewById(R.id.userIdInput);
-        searchUserButton = view.findViewById(R.id.searchUserButton);
+        messagesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        messagesRecyclerView.setAdapter(messagesAdapter);
+
+        sendButton.setOnClickListener(v -> sendMessage());
+        startConversationButton.setOnClickListener(v -> showStartConversationDialog());
 
 
-        //Chat Stuff
-        List<String> chatList = new ArrayList<>();
-        ArrayAdapter<String> chatAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, chatList);
-        chatListView.setAdapter(chatAdapter);
+        loadMessages();
 
+        return view;
+    }
 
+    private void loadMessages() {
+        if (db != null) {
+            Log.d("MessagesFragment", "Loading messages...");
+            db.collection("messages")
+                    .whereEqualTo("sender", currentUserEmail)
+                    .whereEqualTo("receiver", receiverUserEmail)
+                    .orderBy("timestamp", Query.Direction.ASCENDING)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        messageList.clear();
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            Message message = document.toObject(Message.class);
+                            messageList.add(message);
+                        }
+                        messagesAdapter.notifyDataSetChanged();
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("MessagesFragment", "Error loading messages", e);
+                    });
+        } else {
+            Log.e("MessagesFragment", "FirebaseFirestore instance is null");
+        }
+    }
 
-        /*
-        chatListView.setOnClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //int pos = position;
-                FragmentManager fragmentManager = getParentFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                MessagesFragment chatFragment = MessagesFragment.newInstance(chatList.get(position));
-                transaction.replace(R.id.main_container, chatFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+    private void sendMessage() {
+        String content = messageInput.getText().toString();
+        if (!content.isEmpty()) {
+            Message message = new Message(currentUserEmail, content, new Date(), receiverUserEmail);
+            db.collection("messages")
+                    .add(message)
+                    .addOnSuccessListener(documentReference -> {
+                        messageList.add(message);
+                        messagesAdapter.notifyDataSetChanged();
+                        messageInput.setText("");
+                        messagesRecyclerView.smoothScrollToPosition(messageList.size() - 1);
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("MessagesFragment", "Error sending message", e);
+                    });
+        }
+    }
+
+    private void showStartConversationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_start_conversation, null);
+        EditText userEmailInput = dialogView.findViewById(R.id.userEmailInput);
+        EditText messageInput = dialogView.findViewById(R.id.messageInput);
+        Button sendButton = dialogView.findViewById(R.id.sendButton);
+
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        sendButton.setOnClickListener(v -> {
+            String userEmail = userEmailInput.getText().toString();
+            String messageContent = messageInput.getText().toString();
+            if (!userEmail.isEmpty() && !messageContent.isEmpty()) {
+                sendMessageToUser(userEmail, messageContent);
+                dialog.dismiss();
+            } else {
+                Toast.makeText(getContext(), "Please enter both email and message", Toast.LENGTH_SHORT).show();
             }
-        }); Useless Anonymous Code
-        */
-
-        chatListView.setOnItemClickListener((parent, view1, position, id) -> {
-            // Replace with ChatFragment using the selected chat item
-            FragmentManager fragmentManager = getParentFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            MessagesFragment chatFragment = MessagesFragment.newInstance(chatList.get(position));
-            transaction.replace(R.id.main_container, chatFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
         });
-        return view;} // Returns the fragment_messages xml file. not the fragment_chat xml file that one is view2
+
+        dialog.show();
+    }
+
+    private void sendMessageToUser(String recipientEmail, String messageContent) {
+        Message message = new Message(currentUserEmail, messageContent, new Date(), recipientEmail);
+        db.collection("messages")
+                .add(message)
+                .addOnSuccessListener(documentReference -> {
+                    // Handle success, e.g., update the UI or notify the user
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("MessagesFragment", "Error sending message", e);
+                });
+    }
+
+    private String getCurrentUserEmail() {
+        // Implement method to get the current logged-in user's email
+        return "user@example.com"; // Placeholder for current user email
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Returns the fragment_messages xml file. not the fragment_chat xml file that one is view2
         //Commented out the original code, regardless we might have to change it entirely if not just erase my code and reactive your old code
         //*/
 
@@ -244,4 +334,4 @@ public class MessagesFragment extends Fragment {
 
         }
     */ //return view;}
-}
+
