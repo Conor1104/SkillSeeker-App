@@ -78,6 +78,7 @@ public class Directory extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(this, "Make account to post job", Toast.LENGTH_SHORT).show();
+
                 }
             } else if (item.getItemId() == R.id.Profile) {
 
@@ -88,9 +89,12 @@ public class Directory extends AppCompatActivity {
                     fragment = profileFragment;
                 }
                 else {
-                    Toast.makeText(this, "Profile not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Profile not found, Please Register", Toast.LENGTH_SHORT).show();
+
                     Intent register = new Intent(this, Activity_Register.class);
+                    //register.putExtra("goto_directory","goto_directory");
                     startActivity(register);
+
                 }
             }
 

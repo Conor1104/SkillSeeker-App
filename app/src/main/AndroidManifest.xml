@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkillSeekerApp"
         tools:targetApi="31">
+        <activity
+            android:name=".Guest_Register"
+            android:exported="false"
+            android:label="@string/title_activity_guest_register"
+            android:theme="@style/Theme.SkillSeekerApp.NoActionBar" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
@@ -20,7 +25,7 @@
             android:multiprocess="true">
             <meta-data
                 android:name="androidx.startup"
-                android:value="androidx.startup.AppInitializer"/>
+                android:value="androidx.startup.AppInitializer" />
         </provider>
 
         <activity
@@ -41,9 +46,7 @@
         <activity
             android:name=".Directory"
             android:exported="true" />
-        <activity android:name=".ReviewingProfilePage"
-            >
-        </activity>
+        <activity android:name=".ReviewingProfilePage"></activity>
     </application>
 
 </manifest>

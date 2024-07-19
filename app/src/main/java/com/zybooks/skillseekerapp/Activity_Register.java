@@ -120,6 +120,8 @@ public class Activity_Register extends AppCompatActivity {
             user.put("age", age);
             user.put("user_password", password);
             user.put("user_email", email);
+            user.put("star_review",0);
+
 
             db.collection("users")
                     .add(user)
@@ -141,6 +143,8 @@ public class Activity_Register extends AppCompatActivity {
             //freelancer.put("review_stars", reviewStars);
             freelancer.put("freelancer_password", password);
             freelancer.put("freelancer_phone", phone);
+            freelancer.put("star_review",0);
+
 
             db.collection("freelancers")
                     .add(freelancer)
@@ -189,10 +193,19 @@ public class Activity_Register extends AppCompatActivity {
     }
 
     //Button
-    public void goto_main(View view){
+    public void goto_main(){
         Intent intent = new Intent (this, MainActivity.class);
         startActivity(intent);
     } // Goes to main login screen (Method For Back Button)
+
+    public void goto_guest_directory(View view) {
+        Intent intent = new Intent(this, Directory.class);
+        startActivity(intent);
+    }
+
+
+
+
 
 }
 

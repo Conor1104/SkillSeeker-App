@@ -79,7 +79,7 @@
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/userPassword"  />
+            app:layout_constraintTop_toBottomOf="@id/userPassword" />
 
         <!-- Freelancer Input Fields -->
 
@@ -179,7 +179,7 @@
             android:layout_marginTop="4dp"
             android:backgroundTint="#6750A4"
             android:contentDescription="@string/go_back_button_description"
-            android:onClick="goto_main"
+            android:onClick="goto_guest_directory"
             android:scaleType="centerInside"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -187,6 +187,36 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/back_arrow"
             app:tint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="103dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="104dp"
+            android:text="Already have an account? Log in "
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/freelancerSubmitButton"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/mainscreenlogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="163dp"
+            android:text="Login"
+            android:contentDescription="Goes to main login screen"
+            android:onClick="goto_main"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
