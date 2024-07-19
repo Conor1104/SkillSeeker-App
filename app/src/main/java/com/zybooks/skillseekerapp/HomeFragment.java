@@ -17,6 +17,7 @@ import com.zybooks.skillseekerapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -69,7 +70,29 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d("HomeFragment", "onCreateView called");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
         filterButton = view.findViewById(R.id.filter); //// Find the filter button
+
+        //Job Category Selector
+        job_category = view.findViewById(R.id.job_options_home);
+        job_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int item;
+                    Log.d("HomeFragment", "onItemSelected called:" + parent.getItemAtPosition(position).toString()); //Checking which category gets called
+                    String selectedFilter = parent.getItemAtPosition(position).toString();
+                    filterJobs(selectedFilter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+
+
+
+/*
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,13 +100,16 @@ public class HomeFragment extends Fragment {
                 filterJobs(filterCriteria);
             }
         });
-        job_category = view.findViewById(R.id.job_options_home);
+        */
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.job_options,
                 android.R.layout.simple_spinner_item
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         job_category.setAdapter(adapter);
+
+
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -102,15 +128,20 @@ public class HomeFragment extends Fragment {
     }
 
     private void filterJobs(String criteria) {
-        List<Job> filteredJobs = new ArrayList<>();
-        for (Job job : jobList) {
-            if (job.getJob_title().contains(criteria) || job.getCity().contains(criteria)) {
-                filteredJobs.add(job);
+        FirebaseFirestore fj = FirebaseFirestore.getInstance();
+        fj.collection("jobs").whereEqualTo("job_category", criteria).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                jobList.clear();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Job job = document.toObject(Job.class);
+                    jobList.add(job);
+                }
+                jobAdapter.notifyDataSetChanged();
+            } else {
+                Log.e("HomeFragment", "Error fetching jobs", task.getException());
+                // Handle the error
             }
-        }
-        jobAdapter = new JobAdapter(filteredJobs, getContext());
-        recyclerView.setAdapter(jobAdapter);
-        jobAdapter.notifyDataSetChanged();
+        });
     }
 
     private void fetchJobs() {
