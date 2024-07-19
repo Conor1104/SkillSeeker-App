@@ -16,6 +16,52 @@
         android:textStyle="bold"
         android:layout_marginBottom="4dp" />
 
+
+    <LinearLayout
+        android:id="@+id/star_rating_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:orientation="horizontal">
+
+        <com.zybooks.skillseekerapp.StarView
+            android:id="@+id/star1"
+            android:layout_width="42dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp" />
+
+        <com.zybooks.skillseekerapp.StarView
+            android:id="@+id/star2"
+            android:layout_width="42dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp" />
+
+        <com.zybooks.skillseekerapp.StarView
+            android:id="@+id/star3"
+            android:layout_width="42dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp" />
+
+        <com.zybooks.skillseekerapp.StarView
+            android:id="@+id/star4"
+            android:layout_width="42dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="4dp" />
+
+        <com.zybooks.skillseekerapp.StarView
+            android:id="@+id/star5"
+            android:layout_width="42dp"
+            android:layout_height="36dp" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/reviewButton"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="Review"
+        />
+
     <TextView
         android:id="@+id/jobTitleTextView"
         android:layout_width="wrap_content"
@@ -67,6 +113,8 @@
         android:id="@+id/contactButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Contact" />
+        android:text="Contact"
+        />
+
 
 </LinearLayout>

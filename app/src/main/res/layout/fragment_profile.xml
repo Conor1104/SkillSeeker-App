@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/light_grey"
+    android:background="#FFFFFF"
     tools:context=".ProfileFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,9 +30,9 @@
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="133dp"
+            android:layout_width="130dp"
             android:layout_height="96dp"
-            android:layout_marginStart="-160dp"
+            android:layout_marginStart="-155dp"
             android:layout_marginTop="-145dp"
             android:src="@drawable/profile"
             app:layout_constraintStart_toEndOf="@+id/textView2"
@@ -44,8 +44,10 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-20dp"
-            android:text="Profile Fragment"
+            android:layout_marginTop="-30dp"
+            android:text="Account Profile"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             android:textSize="26dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -58,16 +60,16 @@
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="-21dp"
             android:text=""
             android:textAlignment="center"
             android:textSize="34dp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView2"
-            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/imageView4"
             />
 
         <!-- Phone Num-->
@@ -154,7 +156,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="170dp"
+            android:layout_marginStart="173dp"
             android:layout_marginTop="190dp"
             android:layout_marginEnd="160dp"
             android:text="Age"
@@ -218,18 +220,73 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/freelancer_email" />
 
-        <!--Star Rating
-        <EditText
+        <!--Star Rating-->
+        <TextView
             android:id="@+id/profile_stars"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="500dp"
+            android:layout_marginEnd="180dp"
             android:text=""
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_experience" />
-            -->
+            app:layout_constraintTop_toBottomOf="@id/imageView4" />
+
+        <TextView
+            android:id="@+id/stars_HeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="160dp"
+            android:layout_marginEnd="160dp"
+            android:layout_marginBottom="50dp"
+            android:text="Star Rating"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/profile_stars"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <LinearLayout
+            android:id="@+id/star_rating_container"
+            android:layout_width="373dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="360dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/profile_stars"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/PhoneNum_headertext">
+
+            <com.zybooks.skillseekerapp.StarView
+                android:id="@+id/star1"
+                android:layout_width="72dp"
+                android:layout_height="wrap_content" />
+
+            <com.zybooks.skillseekerapp.StarView
+                android:id="@+id/star2"
+                android:layout_width="72dp"
+                android:layout_height="wrap_content" />
+
+            <com.zybooks.skillseekerapp.StarView
+                android:id="@+id/star3"
+                android:layout_width="72dp"
+                android:layout_height="wrap_content" />
+
+            <com.zybooks.skillseekerapp.StarView
+                android:id="@+id/star4"
+                android:layout_width="72dp"
+                android:layout_height="wrap_content" />
+
+            <com.zybooks.skillseekerapp.StarView
+                android:id="@+id/star5"
+                android:layout_width="72dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
 
         <TextView
             android:id="@+id/experience_HeaderText"
@@ -245,8 +302,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        <!--Star Rating
+                <RelativeLayout
+                    android:id="@+id/RelativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintTop_toBottomOf="@id/experience_HeaderText"
+                    >
 
-        <!-- Save Changes Button For Freelancers-->
+                    <com.zybooks.skillseekerapp.StarView
+                        android:id="@+id/starView"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_centerInParent="true"
+                        />
+                </RelativeLayout>
+                -->
+
+                <!-- Save Changes Button For Freelancers-->
         <Button
             android:id="@+id/save_button_freelancers"
             android:layout_width="wrap_content"
@@ -257,8 +330,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/freelancer_experience"
-            />
+            app:layout_constraintTop_toBottomOf="@id/freelancer_experience" />
 
         <!-- Save Changes Button For Users-->
         <Button
