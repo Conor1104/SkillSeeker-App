@@ -1,7 +1,7 @@
 package com.zybooks.skillseekerapp;
 
 public class Job {
-    private String user_Id;
+    private String user_id;
     private String name;
     private String email;
     private String phone;
@@ -11,12 +11,13 @@ public class Job {
     private String city;
     private String description;
     private String posterUserId;
+    private int star_review;
 
     // Default constructor required for Firestore
     public Job() {}
 
-    public Job(String user_Id, String name, String email, String phone, String job_category, String job_title, String date, String city, String description, String posterUserId) {
-        this.user_Id = user_Id;
+    public Job(String user_id, String name, String email, String phone, String job_category, String job_title, String date, String city, String description, String posterUserId, int star_review) {
+        this.user_id = user_id;
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -26,15 +27,16 @@ public class Job {
         this.city = city;
         this.description = description;
         this.posterUserId = posterUserId;
+        this.star_review = star_review;
     }
 
     // Getters and Setters
     public String getUser_Id() {
-        return user_Id;
+        return user_id;
     }
 
-    public void setUser_Id(String user_Id) {
-        this.user_Id = user_Id;
+    public void setUser_Id(String user_id) {
+        this.user_id = user_id;
     }
 
     public String getName() {
@@ -109,4 +111,11 @@ public class Job {
         this.posterUserId = posterUserId;
     }
 
+    public int getStarReview() {
+    return star_review;
+    }
+
+    public void setStarReview(int starReview) {
+    this.star_review = star_review;
+    }
 }
