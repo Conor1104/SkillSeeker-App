@@ -28,6 +28,7 @@ public class Directory extends AppCompatActivity {
     private ProfileFragment profileFragment;
     //    private SettingsFragment Sfrag;
     private PostFragment postFragment;
+    private MessagesFragment messagesFragment;
     private String user_or_freelancerID;
     private boolean UserProfile_detected;
 
@@ -56,9 +57,14 @@ public class Directory extends AppCompatActivity {
             UserProfile_detected = false;
             replaceFragment(new HomeFragment(), false);
         }
+        //messagesFragment = new MessagesFragment();
 
 
         //Pfrag = new PostFragment();
+
+        //FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment fragment = null;
@@ -68,7 +74,16 @@ public class Directory extends AppCompatActivity {
             } else if (item.getItemId() == R.id.Discover) {
                 fragment = new DiscoverFragment();
             } else if (item.getItemId() == R.id.Messages) {
-                fragment = new MessagesFragment();
+                if(messagesFragment== null){
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    messagesFragment = new MessagesFragment();
+                    fragmentTransaction.add(R.id.main_container,messagesFragment);
+                    fragmentTransaction.commit();
+                }
+
+                //fragment = new MessagesFragment();
+                //This is trying to create a new instance of the fragment
             } else if (item.getItemId() == R.id.Post) {
                 if (UserProfile_detected==true) {
                     if (postFragment == null) {

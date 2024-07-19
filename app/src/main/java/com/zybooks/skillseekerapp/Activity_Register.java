@@ -193,7 +193,7 @@ public class Activity_Register extends AppCompatActivity {
     }
 
     //Button
-    public void goto_main(){
+    public void goto_main(View view){
         Intent intent = new Intent (this, MainActivity.class);
         startActivity(intent);
     } // Goes to main login screen (Method For Back Button)
