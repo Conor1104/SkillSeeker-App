@@ -221,35 +221,35 @@ public class HomeFragment extends Fragment {
         public JobViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            contactButton = itemView.findViewById(R.id.contactButton);
+//            contactButton = itemView.findViewById(R.id.contactButton);
 
-            contactButton.setOnClickListener(v -> {
-                Log.d("JobViewHolder", "Contact button clicked");
-
-                // Navigate to MessagesFragment
-                Job job = jobList.get(getAdapterPosition());
-                String posterUserId = job.getPosterUserId();
-                Log.d("JobViewHolder", "Poster UserId: " + posterUserId);
-
-
-                Bundle bundle = new Bundle();
-                bundle.putString("posterUserId", posterUserId);
-
-                AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                MessagesFragment messagesFragment = new MessagesFragment();
-                messagesFragment.setArguments(bundle);
-
-                Log.d("HomeFragment", "Navigating to MessagesFragment");
-
-                activity.getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_container, messagesFragment) // Replace with your fragment container ID
-                        .addToBackStack(null)
-                        .commit();
-
-                Log.d("HomeFragment", "Transaction committed");
-                Log.d("JobViewHolder", "Navigated to MessagesFragment");
-            });
+//            contactButton.setOnClickListener(v -> {
+//                Log.d("JobViewHolder", "Contact button clicked");
+//
+//                // Navigate to MessagesFragment
+//                Job job = jobList.get(getAdapterPosition());
+//                String posterUserId = job.getPosterUserId();
+//                Log.d("JobViewHolder", "Poster UserId: " + posterUserId);
+//
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putString("posterUserId", posterUserId);
+//
+//                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+//                MessagesFragment messagesFragment = new MessagesFragment();
+//                messagesFragment.setArguments(bundle);
+//
+//                Log.d("HomeFragment", "Navigating to MessagesFragment");
+//
+//                activity.getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .replace(R.id.main_container, messagesFragment) // Replace with your fragment container ID
+//                        .addToBackStack(null)
+//                        .commit();
+//
+//                Log.d("HomeFragment", "Transaction committed");
+//                Log.d("JobViewHolder", "Navigated to MessagesFragment");
+//            });
         }
     }
 }

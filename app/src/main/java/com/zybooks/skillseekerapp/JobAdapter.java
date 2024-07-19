@@ -62,20 +62,20 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         // Fetch and set star rating
         fetchStarRating(job.getUser_Id(), star1, star2, star3, star4, star5);
 
-        holder.contactButton.setOnClickListener(v -> {
-            // Navigate to MessagesFragment
-            Bundle bundle = new Bundle();
-            bundle.putString("posterUserId", job.getPosterUserId());
-            AppCompatActivity activity = (AppCompatActivity) context;
-            MessagesFragment messagesFragment = new MessagesFragment();
-            messagesFragment.setArguments(bundle);
-
-            activity.getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frameLayout, messagesFragment)
-                    .addToBackStack(null)
-                    .commit();
-        });
+//        holder.contactButton.setOnClickListener(v -> {
+//            // Navigate to MessagesFragment
+//            Bundle bundle = new Bundle();
+//            bundle.putString("posterUserId", job.getPosterUserId());
+//            AppCompatActivity activity = (AppCompatActivity) context;
+//            MessagesFragment messagesFragment = new MessagesFragment();
+//            messagesFragment.setArguments(bundle);
+//
+//            activity.getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .replace(R.id.frameLayout, messagesFragment)
+//                    .addToBackStack(null)
+//                    .commit();
+//        });
         holder.reviewButton.setOnClickListener(v -> {
         // Navigate to ReviewingProfilePage
                 Intent intent = new Intent(context, ReviewingProfilePage.class);
@@ -166,7 +166,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
             cityTextView = itemView.findViewById(R.id.cityTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
-            contactButton = itemView.findViewById(R.id.contactButton);
+//            contactButton = itemView.findViewById(R.id.contactButton);
             reviewButton = itemView.findViewById(R.id.reviewButton);
         }
     }
