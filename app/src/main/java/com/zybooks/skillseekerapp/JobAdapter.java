@@ -52,36 +52,41 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         holder.descriptionTextView.setText(job.getDescription());
         holder.dateTextView.setText(job.getDate());
         Log.e(TAG, "userId is null or empty" + job.getUser_Id());
-        // Initialize StarView elements
+        //Initialize StarView elements
         StarView star1 = holder.itemView.findViewById(R.id.star1);
         StarView star2 = holder.itemView.findViewById(R.id.star2);
         StarView star3 = holder.itemView.findViewById(R.id.star3);
         StarView star4 = holder.itemView.findViewById(R.id.star4);
         StarView star5 = holder.itemView.findViewById(R.id.star5);
 
-        // Fetch and set star rating
+        //Fetch and set star rating
         fetchStarRating(job.getUser_Id(), star1, star2, star3, star4, star5);
+/*
+        holder.contactButton.setOnClickListener(v -> {
+            // Navigate to MessagesFragment
+            Bundle bundle = new Bundle();
+            bundle.putString("posterUserId", job.getPosterUserId());
+            AppCompatActivity activity = (AppCompatActivity) context;
+            MessagesFragment messagesFragment = new MessagesFragment();
+            messagesFragment.setArguments(bundle);
 
-//        holder.contactButton.setOnClickListener(v -> {
-//            // Navigate to MessagesFragment
-//            Bundle bundle = new Bundle();
-//            bundle.putString("posterUserId", job.getPosterUserId());
-//            AppCompatActivity activity = (AppCompatActivity) context;
-//            MessagesFragment messagesFragment = new MessagesFragment();
-//            messagesFragment.setArguments(bundle);
-//
-//            activity.getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.frameLayout, messagesFragment)
-//                    .addToBackStack(null)
-//                    .commit();
-//        });
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frameLayout, messagesFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+ */
         holder.reviewButton.setOnClickListener(v -> {
-        // Navigate to ReviewingProfilePage
+        //Navigate to ReviewingProfilePage
                 Intent intent = new Intent(context, ReviewingProfilePage.class);
                 String posterUserId = job.getUser_Id();
+                String userOrFreelancerId = Directory.reviewProfileBypassID();
+
                 intent.putExtra(ReviewingProfilePage.EXTRA_POSTER_USER_ID, posterUserId);
-                Log.e(TAG, "userId is null or empty" + posterUserId);
+                intent.putExtra(ReviewingProfilePage.USER_OR_FREELANCERID, userOrFreelancerId);
+
                 context.startActivity(intent);
 
         });
@@ -92,7 +97,6 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
     private void fetchStarRating(String userId, StarView star1, StarView star2, StarView star3, StarView star4, StarView star5) {
         if (userId == null || userId.isEmpty()) {
             //Handling the case where userId is null or empty
-            //Log.e(TAG, "userId is null or empty" + userId);
             resetStarViews(star1, star2, star3, star4, star5);
             return;
         }
@@ -166,7 +170,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
             cityTextView = itemView.findViewById(R.id.cityTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
-//            contactButton = itemView.findViewById(R.id.contactButton);
+            //contactButton = itemView.findViewById(R.id.contactButton);
             reviewButton = itemView.findViewById(R.id.reviewButton);
         }
     }

@@ -2,7 +2,7 @@ package com.zybooks.skillseekerapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -20,6 +18,8 @@ public class ReviewingProfilePage extends AppCompatActivity {
 
     private static final String TAG = "ReviewingProfilePage";
     public static final String EXTRA_POSTER_USER_ID = "posterUserId";
+    public static final String USER_OR_FREELANCERID ="active_id";
+    private String active_id;
 
     private String posterUserId;
 
@@ -32,6 +32,12 @@ public class ReviewingProfilePage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Intent intent_active_id = getIntent();
+        active_id = intent_active_id.getStringExtra(USER_OR_FREELANCERID);
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reviewing_profile_page);
 
@@ -39,6 +45,7 @@ public class ReviewingProfilePage extends AppCompatActivity {
         // Get the posterUserId from the Intent
         Intent intent = getIntent();
         posterUserId = intent.getStringExtra(EXTRA_POSTER_USER_ID);
+
 
 
         // Initialize views
@@ -101,7 +108,6 @@ public class ReviewingProfilePage extends AppCompatActivity {
     }
     private void fetchProfileInfo() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        //Log.e(TAG, "userId is null or empty" + posterUserId);
         db.collection("users").document(posterUserId).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
@@ -216,21 +222,28 @@ public class ReviewingProfilePage extends AppCompatActivity {
             return;
         }
 
-        db.collection("users").document(posterUserId).update("star_review", newStarRating)
-                .addOnCompleteListener(task1 -> {
-                    if (task1.isSuccessful()) {
-                        Toast.makeText(this, "Star rating updated successfully", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        db.collection("freelancers").document(posterUserId).update("star_review", newStarRating)
-                                .addOnCompleteListener(task2 -> {
-                                    if (task2.isSuccessful()) {
-                                        Toast.makeText(this, "Star rating updated successfully", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(this, "Error updating star rating: " + task2.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    }
-                });
+        if(active_id == null){
+            Toast.makeText(this, "You need an account to make a review", Toast.LENGTH_SHORT).show();
+        }
+        else if (!active_id.equals(posterUserId)){
+            db.collection("users").document(posterUserId).update("star_review", newStarRating)
+                    .addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            Toast.makeText(this, "Star rating updated successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            db.collection("freelancers").document(posterUserId).update("star_review", newStarRating)
+                                    .addOnCompleteListener(task2 -> {
+                                        if (task2.isSuccessful()) {
+                                            Toast.makeText(this, "Star rating updated successfully", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(this, "Error updating star rating: " + task2.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    });
+        }
+        else{
+            Toast.makeText(this, "You can not rate your own account", Toast.LENGTH_SHORT).show();
+        }
     }
 }

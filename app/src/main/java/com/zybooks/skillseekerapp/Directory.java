@@ -21,15 +21,12 @@ import com.zybooks.skillseekerapp.databinding.DirectoryPageBinding;
 public class Directory extends AppCompatActivity {
 
     DirectoryPageBinding binding;
-    //    private DiscoverFragment dfrag;
-    //    private HomeFragment Hfrag;
-    //    private MessagesFragment Mfrag;
-    //private PostFragment Pfrag;
+
     private ProfileFragment profileFragment;
-    //    private SettingsFragment Sfrag;
+
     private PostFragment postFragment;
     private MessagesFragment messagesFragment;
-    private String user_or_freelancerID;
+    private static String user_or_freelancerID;
     private boolean UserProfile_detected;
 
     private static final String TAG = "Directory";
@@ -46,6 +43,7 @@ public class Directory extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
+
         if (intent != null) {
             user_or_freelancerID = intent.getStringExtra("USER_ID");
         }
@@ -57,12 +55,10 @@ public class Directory extends AppCompatActivity {
             UserProfile_detected = false;
             replaceFragment(new HomeFragment(), false);
         }
-        //messagesFragment = new MessagesFragment();
 
 
-        //Pfrag = new PostFragment();
 
-        //FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
 
 
 
@@ -73,19 +69,21 @@ public class Directory extends AppCompatActivity {
                 fragment = new HomeFragment();
             } else if (item.getItemId() == R.id.Discover) {
                 fragment = new DiscoverFragment();
-//            } else if (item.getItemId() == R.id.Messages) {
-//                if(messagesFragment== null){
-//                    FragmentManager fragmentManager = getSupportFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                    messagesFragment = new MessagesFragment();
-//                    fragmentTransaction.add(R.id.main_container,messagesFragment);
-//                    fragmentTransaction.commit();
-//                }
-//                fragment = messagesFragment;
+            }
+            /*else if (item.getItemId() == R.id.Messages) {
+                if(messagesFragment== null){
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    messagesFragment = new MessagesFragment();
+                    fragmentTransaction.add(R.id.main_container,messagesFragment);
+                    fragmentTransaction.commit();
+                }
+                fragment = messagesFragment;
+                }
+*/
 
-                //fragment = new MessagesFragment();
                 //This is trying to create a new instance of the fragment
-            } else if (item.getItemId() == R.id.Post) {
+            else if (item.getItemId() == R.id.Post) {
                 if (UserProfile_detected==true) {
                     if (postFragment == null) {
                         postFragment = PostFragment.newInstance(user_or_freelancerID);
@@ -114,6 +112,8 @@ public class Directory extends AppCompatActivity {
                 }
             }
 
+
+
             if (fragment != null) {
                 replaceFragment(fragment, true);
                 return true;
@@ -124,67 +124,10 @@ public class Directory extends AppCompatActivity {
     }
 
 
-//        dfrag = new DiscoverFragment();
-//        Hfrag = new HomeFragment();
-//        Mfrag = new MessagesFragment();
-//Pfrag = new PostFragment();
-//        Sfrag = new SettingsFragment();
-//
-//        // Add DiscoverFragment to FrameLayout
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.frameLayout, dfrag)
-//                .commit();
-/*
-        //binding = DirectoryPageBinding.inflate(getLayoutInflater());
-        // setContentView(binding.getRoot());
-        replaceFragment(new HomeFragment());
-
-        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-
-            Fragment fragment = null;
-
-            switch (item.getItemId()) {
-                case R.id.Home:
-                    fragment = new HomeFragment();
-                    break;
-                case R.id.Discover:
-                    fragment = new DiscoverFragment();
-                    break;
-                case R.id.Messages:
-                    fragment = new MessagesFragment();
-                    break;
-                case R.id.Post:
-                    fragment = new PostFragment();
-                    break;
-                case R.id.Profile:
-                    if (profileFragment == null) {
-                        profileFragment = ProfileFragment.newInstance("initialUserID");
-                    }
-                    fragment = profileFragment;
-                    break;
-            }
-            /*
-            if (item.getItemId() == R.id.Home) {
-                fragment = new HomeFragment();
-            } else if (item.getItemId() == R.id.Discover) {
-                fragment = new DiscoverFragment();
-            } else if (item.getItemId() == R.id.Messages) {
-                fragment = new MessagesFragment();
-            } else if (item.getItemId() == R.id.Post) {
-                fragment = new PostFragment();
-            } else if (item.getItemId() == R.id.Profile) {
-                fragment = new ProfileFragment();
-           }
-
-
-            if (fragment != null) {
-                replaceFragment(fragment);
-
-            }
-            return true; */
-
 
     private void checkFreelancerProfile(String user_or_freelancerID) {
+
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("freelancers").document(user_or_freelancerID).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -193,7 +136,7 @@ public class Directory extends AppCompatActivity {
                     UserProfile_detected = true;
                     replaceFragment(new HomeFragment(), false);
                 } else {
-                    // Freelancer profile not found but continues checking for user profile
+                    //Freelancer profile not found but continues checking for user profile
                     checkUserProfile(user_or_freelancerID);
                 }
             } else {
@@ -227,6 +170,13 @@ public class Directory extends AppCompatActivity {
         });
     }
 
+        public static String reviewProfileBypassID() {
+            String intent_active_id=user_or_freelancerID;
+            return intent_active_id;
+
+        }
+
+
 
     private void replaceFragment(Fragment fragment, boolean addToBackStack) {
 
@@ -240,28 +190,6 @@ public class Directory extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-//
-//        MenuItem searchItem = menu.findItem(R.id.SearchButton);
-//        SearchView searchView = (SearchView) searchItem.getActionView();
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                //Handle search query submission
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                //Handles any search text changes
-//                return false;
-//            }
-//        });
-//
-//        return true;
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -271,21 +199,4 @@ public class Directory extends AppCompatActivity {
 
 }
 
-
-/*
-public HomeFragment getHomeFragment() {
-    return Hfrag;
-}
-
-public MessagesFragment getMessagesFragment() {
-    return Mfrag;
-}
-
-public PostFragment getPostFragment() {
-    return Pfrag;
-}
-
-public SettingsFragment getSettingsFragment() {
-    return Sfrag;
-} */
 

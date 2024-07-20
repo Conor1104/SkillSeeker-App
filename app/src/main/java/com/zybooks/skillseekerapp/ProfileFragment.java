@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
+
 import android.widget.Button;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,14 +103,12 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             user_or_freelancer_id = getArguments().getString(USER_OR_FREELANCER_ID);
-            //userProfile_detected = getArguments().getBoolean(USER_PROFILE_DETECTED);
-            //Log.d(TAG, "ID received: " + user_or_freelancer_id ); //For Debug checking
+
             if (user_or_freelancer_id == null){
                 goto_mainactivity(); //redirects to the app main activity
                 Toast.makeText(getContext(), "Create an account to have a Profile", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 
     @Override
@@ -164,6 +162,7 @@ public class ProfileFragment extends Fragment {
 
         Button logoutButton = view_prof.findViewById(R.id.logout_button);
         logoutButton.setOnClickListener(v -> logout());
+
 
         return view_prof;
     }
@@ -232,7 +231,7 @@ public class ProfileFragment extends Fragment {
             }
             else {
                 Toast.makeText(getContext(), "Error fetching user: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                //Log.e(TAG, "Error fetching freelancer: ", task.getException());
+
             }
         });
     }
@@ -242,7 +241,7 @@ public class ProfileFragment extends Fragment {
 
         // Fetch user profile
         db.collection("freelancers").document(this.user_or_freelancer_id).get().addOnCompleteListener(task -> {//Looks for freelancer by hash ID
-            //Log.e(TAG, "Freelacner found: " + this.user_or_freelancer_id);
+
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
@@ -274,15 +273,15 @@ public class ProfileFragment extends Fragment {
                     experience_Header.setVisibility(View.VISIBLE);
                     saveButton_Freelancers.setVisibility(View.VISIBLE);
 
-                    //Log.e(TAG, "Freelacner found: " + this.user_or_freelancer_id);
+
 
                 } else {
                     Toast.makeText(getContext(), "User not found", Toast.LENGTH_SHORT).show();
-                    //Log.e(TAG, "User not found: " + this.user_or_freelancer_id);
+
                 }
             } else {
                 Toast.makeText(getContext(), "Error fetching freelancer: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                //Log.e(TAG, "Error fetching user: ", task.getException());
+
             }
         });
     }
@@ -303,19 +302,8 @@ public class ProfileFragment extends Fragment {
     private void saveProfile() {//Saves the profile data of users and freelancers and updates the DB with that data
         FirebaseFirestore db = FirebaseFirestore.getInstance();//calling the DB
         Map<String, Object> profileData = new HashMap<>();
-/*
-        try {
-            int star_review = Integer.parseInt(starsEditText.getText().toString());
 
-            //Validate star rating
-            if (!isValidStarRating(star_review)) {
-                Toast.makeText(getContext(), "Star rating must be between 0 and 5", Toast.LENGTH_SHORT).show();
-                return; //Exit the method to prevent saving invalid data
-            }
 
- */
-
-            //Log.d(TAG, user_or_freelancer_id);
             db.collection("users").document(this.user_or_freelancer_id).get().addOnCompleteListener(user_found_task -> {
                 DocumentSnapshot user_documentID = user_found_task.getResult();
                 if (user_documentID.exists()) {
@@ -382,6 +370,5 @@ public class ProfileFragment extends Fragment {
         startActivity(intent);
         getActivity().finish();
     }
-
 
 }
