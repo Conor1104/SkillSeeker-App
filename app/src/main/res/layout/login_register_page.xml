@@ -26,7 +26,7 @@ tools:context=".MainActivity">
     android:layout_height="wrap_content"
     android:layout_marginBottom="259dp"
     android:onClick="goto_login_page"
-
+    android:backgroundTint="@color/button_color"
     android:text="@string/login"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@ tools:context=".MainActivity">
     android:layout_height="wrap_content"
     android:layout_marginBottom="180dp"
     android:onClick="gotoActivity_Register"
-
+    android:backgroundTint="@color/button_color"
     android:text="@string/register"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
@@ -68,6 +68,7 @@ tools:context=".MainActivity">
         android:layout_marginEnd="162dp"
         android:layout_marginBottom="99dp"
         android:onClick="goto_directory"
+        android:backgroundTint="@color/button_color"
         android:text="Guest"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"

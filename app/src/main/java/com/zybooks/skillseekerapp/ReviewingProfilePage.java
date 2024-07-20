@@ -97,15 +97,7 @@ public class ReviewingProfilePage extends AppCompatActivity {
         fetchProfileInfo();
 
     }
-    private void updateStarRating(int starRating) {
-        for (int i = 0; i < 5; i++) {
-            if (i < starRating) {
-                starViews[i].setSelected(true); //Select star
-            } else {
-                starViews[i].setSelected(false); //Deselect star
-            }
-        }
-    }
+
     private void fetchProfileInfo() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(posterUserId).get().addOnCompleteListener(task -> {
@@ -230,11 +222,13 @@ public class ReviewingProfilePage extends AppCompatActivity {
                     .addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
                             Toast.makeText(this, "Star rating updated successfully", Toast.LENGTH_SHORT).show();
+                            updateStarViews(newStarRating);
                         } else {
                             db.collection("freelancers").document(posterUserId).update("star_review", newStarRating)
                                     .addOnCompleteListener(task2 -> {
                                         if (task2.isSuccessful()) {
                                             Toast.makeText(this, "Star rating updated successfully", Toast.LENGTH_SHORT).show();
+                                            updateStarViews(newStarRating);
                                         } else {
                                             Toast.makeText(this, "Error updating star rating: " + task2.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                         }
