@@ -235,9 +235,9 @@ public class ReviewingProfilePage extends AppCompatActivity {
 
     private double calculateAverageRating(List<Double> reviews) {
         if (reviews == null || reviews.isEmpty()) {
-            return 0;
+            return 0.0;
         }
-        double total = 0;
+        double total = 0.0;
         for (Double rating : reviews) {
             total += rating;
         }
@@ -331,3 +331,5 @@ public class ReviewingProfilePage extends AppCompatActivity {
 //        }
 //    }
 //}
+
+//Updated

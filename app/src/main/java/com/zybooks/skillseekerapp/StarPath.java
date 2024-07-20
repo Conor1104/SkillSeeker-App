@@ -24,3 +24,4 @@ public class StarPath extends Path {
         close();
     }
 }
+//Updated 

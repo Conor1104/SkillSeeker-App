@@ -150,3 +150,4 @@ public class Job {
     public void setStar_review(int star_review){this.star_review = star_review;}
 
 }
+//Updated

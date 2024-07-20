@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment {
     private Button filterButton;
     private Spinner job_category;
     private SwitchCompat UserOrFreelancer;
+    private boolean isFetching = false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -77,7 +78,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         //filterButton = view.findViewById(R.id.filter); //// Find the filter button
-        UserOrFreelancer = view.findViewById(R.id.UserOrFreelancer); //Finds the switch button
+        //UserOrFreelancer = view.findViewById(R.id.UserOrFreelancer); //Finds the switch button
         //Job Category Selector
         job_category = view.findViewById(R.id.job_options_home);
 
@@ -94,6 +95,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Do nothing
+                //fetchJobs();
             }
         });
 /*
@@ -129,18 +131,19 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         jobList = new ArrayList<>();
-        freelancerList = new ArrayList<>();
+        //freelancerList = new ArrayList<>();
         jobAdapter = new JobAdapter(jobList, getContext());
-        freelancerAdapter = new FreelancerAdapter(freelancerList, getContext());
+        //freelancerAdapter = new FreelancerAdapter(freelancerList, getContext());
         recyclerView.setAdapter(jobAdapter);
 
 
         dbHelper = new SSDataBaseHelper();
         fetchJobs();
+        //jobAdapter.notifyDataSetChanged();
 
 
         // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_home, container, false);
+        // return inflater.inflate(R.layout.fragment_home, container, false);
         return view; // return the inflated view
     }
 
@@ -177,16 +180,22 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
-        //else fetchJobs();
+        else fetchJobs();
 
     }
-    */
+
+ */
 
     private void filterJobs(String criteria) {
+        if (isFetching) return;
+        isFetching = true;
         FirebaseFirestore fj = FirebaseFirestore.getInstance();
         fj.collection("jobs").whereEqualTo("job_category", criteria).get().addOnCompleteListener(task -> {
+            isFetching = false;
             if (task.isSuccessful()) {
-                jobList.clear();
+                if (jobList != null) {
+                    jobList.clear();
+                }
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Job job = document.toObject(Job.class);
                     jobList.add(job);
@@ -200,8 +209,11 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchJobs() {
+        if(isFetching) return;
+        isFetching = true;
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("jobs").get().addOnCompleteListener(task -> {
+            isFetching = false;
             if (task.isSuccessful()) {
                 jobList.clear();
                 for (QueryDocumentSnapshot document : task.getResult()) {
@@ -213,6 +225,7 @@ public class HomeFragment extends Fragment {
                 Log.e("HomeFragment", "Error fetching jobs", task.getException());
                 // Handle the error
             }
+
         });
     }
 
@@ -273,3 +286,4 @@ public class HomeFragment extends Fragment {
     }
 }
 
+//Updated

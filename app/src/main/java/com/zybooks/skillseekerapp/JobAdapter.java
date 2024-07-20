@@ -175,3 +175,4 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         }
     }
 }
+//UPdated

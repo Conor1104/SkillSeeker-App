@@ -67,3 +67,4 @@ public class StarView extends View {
         invalidate(); // Redraws the view
     }
 }
+//Updated
