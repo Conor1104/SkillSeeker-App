@@ -165,7 +165,7 @@ public class HomeFragment extends Fragment {
                         //Freelancer freelancer = document.toObject(Freelancer.class);
                         freelancerList.add(freelancer);
                     }
-                    jobAdapter.notifyDataSetChanged();
+                    JobAdapter.notifyDataSetChanged();
                 }
                 else {
 
@@ -174,7 +174,7 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
-        else fetchJobs();
+        //else fetchJobs();
 
     }
 
@@ -218,6 +218,7 @@ public class HomeFragment extends Fragment {
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         }
+        fetchJobs();
     }
 
     @Override
