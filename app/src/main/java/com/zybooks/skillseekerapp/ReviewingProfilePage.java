@@ -123,7 +123,13 @@ public class ReviewingProfilePage extends AppCompatActivity {
                     emailTextView.setText(document.getString("user_email"));
                     ageTextView.setText(document.getString("age"));
 
-                    List<Double> reviews = (List<Double>) document.get("reviews");
+                    List<Long> reviewsLong = (List<Long>) document.get("reviews");
+                    List<Double> reviews = new ArrayList<>();
+                    if (reviewsLong != null) {
+                        for (Long review : reviewsLong) {
+                            reviews.add(review.doubleValue()); // Convert Long to Double
+                        }
+                    }
                     double averageRating = calculateAverageRating(reviews);
                     updateStarRating(averageRating);
 
@@ -164,7 +170,13 @@ public class ReviewingProfilePage extends AppCompatActivity {
                     freelancer_email.setText(document.getString("freelancer_email"));
                     experienceTextView.setText(document.getString("freelancer_exp"));
 
-                    List<Double> reviews = (List<Double>) document.get("reviews");
+                    List<Long> reviewsLong = (List<Long>) document.get("reviews");
+                    List<Double> reviews = new ArrayList<>();
+                    if (reviewsLong != null) {
+                        for (Long review : reviewsLong) {
+                            reviews.add(review.doubleValue()); // Convert Long to Double
+                        }
+                    }
                     double averageRating = calculateAverageRating(reviews);
                     updateStarRating(averageRating);
 
@@ -265,12 +277,17 @@ public class ReviewingProfilePage extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        List<Double> reviews = (List<Double>) document.get("reviews");
-                        if (reviews == null) {
-                            reviews = new ArrayList<>();
+                        List<Long> reviewsLong = (List<Long>) document.get("reviews");
+                        List<Double> reviews = new ArrayList<>();
+                        if (reviewsLong != null) {
+                            for (Long review : reviewsLong) {
+                                reviews.add(review.doubleValue()); // Convert Long to Double
+                            }
                         }
                         reviews.add(newStarRating); // Adding a Double to a List<Double>
                         double averageRating = calculateAverageRating(reviews);
+
+
                         Map<String, Object> updates = new HashMap<>();
                         updates.put("reviews", reviews);
                         updates.put("averageRating", averageRating); // Update the average rating field

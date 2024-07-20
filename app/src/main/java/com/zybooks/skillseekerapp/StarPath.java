@@ -2,7 +2,8 @@ package com.zybooks.skillseekerapp;
 
 import android.graphics.Path;
 
-public class StarPath extends Path {
+public class
+StarPath extends Path {
     public StarPath(float x, float y, float innerRadius, float outerRadius, int numPoints) {
         super();
         double section = 2.0 * Math.PI / numPoints;
