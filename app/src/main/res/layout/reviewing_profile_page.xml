@@ -305,6 +305,7 @@
         <Button
             android:id="@+id/save_button_freelancers"
             android:layout_width="wrap_content"
+            android:backgroundTint="@color/button_color"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Save Changes"
@@ -319,6 +320,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Save Changes"
+            android:backgroundTint="@color/button_color"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

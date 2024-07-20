@@ -19,6 +19,7 @@
         android:layout_marginTop="8dp" />
 
     <Button
+        android:backgroundTint="@color/button_color"
         android:id="@+id/sendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
