@@ -127,6 +127,7 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         jobList = new ArrayList<>();
+        freelancerList = new ArrayList<>();
         jobAdapter = new JobAdapter(jobList, getContext());
         recyclerView.setAdapter(jobAdapter);
 
@@ -148,14 +149,21 @@ public class HomeFragment extends Fragment {
             // Show freelancers
             Log.d("HomeFragment", "showFreelancers called");
             FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            //freelancerList = new ArrayList<>();
             db.collection("freelancers").get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    jobList.clear();
+
+                    if (freelancerList!= null) {
+                        freelancerList.clear();
+                    }
                     //freelancerList.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
+                        Freelancer freelancer = document.toObject(Freelancer.class);
+                        freelancerList.add(freelancer);
                         //Freelancer freelancer = document.toObject(Freelancer.class);
-                        Job job = document.toObject(Job.class);
-                        jobList.add(job);
+                        //Freelancer freelancer = document.toObject(Freelancer.class);
+                        freelancerList.add(freelancer);
                     }
                     jobAdapter.notifyDataSetChanged();
                 }
@@ -169,6 +177,7 @@ public class HomeFragment extends Fragment {
         else fetchJobs();
 
     }
+
     private void filterJobs(String criteria) {
         FirebaseFirestore fj = FirebaseFirestore.getInstance();
         fj.collection("jobs").whereEqualTo("job_category", criteria).get().addOnCompleteListener(task -> {

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:layout_marginTop="60dp"
+    android:background="@drawable/border_background"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="352dp"
+        android:layout_height="309dp"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Job Name"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/star_rating_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal">
+
+            <com.zybooks.skillseekerapp.StarView
+                android:id="@+id/star1"
+                android:layout_width="42dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="4dp" />
+
+            <com.zybooks.skillseekerapp.StarView
+                android:id="@+id/star2"
+                android:layout_width="42dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="4dp" />
+
+            <com.zybooks.skillseekerapp.StarView
+                android:id="@+id/star3"
+                android:layout_width="42dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="4dp" />
+
+            <com.zybooks.skillseekerapp.StarView
+                android:id="@+id/star4"
+                android:layout_width="42dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="4dp" />
+
+            <com.zybooks.skillseekerapp.StarView
+                android:id="@+id/star5"
+                android:layout_width="42dp"
+                android:layout_height="36dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/reviewButton"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="Review" />
+
+        <TextView
+            android:id="@+id/jobTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Job Title"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/emailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Email"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/phoneTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Phone"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/cityTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="City"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="Description"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textSize="14sp" />
+
+        <!-- <Button
+            android:id="@+id/contactButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact" />
+            -->
+    </LinearLayout>
+
+
+</RelativeLayout>

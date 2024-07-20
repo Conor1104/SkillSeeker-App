@@ -21,37 +21,37 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
-public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
-    private List<Job> jobList;
+public class FreelancerAdapter extends RecyclerView.Adapter<FreelancerAdapter.FreelancerViewHolder> {
+    private List<Freelancer> FreelancerList;
     private Context context;
     private FirebaseFirestore db;
-    private static final String TAG = "JobAdapter";
+    private static final String TAG = "FreelanceAdapter";
 
-    public JobAdapter(List<Job> jobList, Context context) {
-        this.jobList = jobList;
+    public FreelancerAdapter(List<Freelancer>FreelancerList, Context context) {
+        this.FreelancerList = FreelancerList;
         this.context = context;
         this.db = FirebaseFirestore.getInstance();
     }
 
     @NonNull
     @Override
-    public JobViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.job_posting, parent, false);
-        return new JobViewHolder(view);
+    public FreelancerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.freelancer_item, parent, false);
+        return new FreelancerViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull JobViewHolder holder, int position) {
-        Job job = jobList.get(position);
-        holder.nameTextView.setText(job.getName());
-        holder.emailTextView.setText(job.getEmail());
-        holder.phoneTextView.setText(job.getPhone());
-        holder.jobTitleTextView.setText(job.getJob_title());
-        holder.cityTextView.setText(job.getCity());
-        holder.descriptionTextView.setText(job.getDescription());
+    public void onBindViewHolder(@NonNull FreelancerViewHolder holder, int position) {
+        Freelancer freelancer = FreelancerList.get(position);
+        holder.nameTextView.setText(freelancer.getFreelancer_name());
+        holder.emailTextView.setText(freelancer.getFreelancer_email());
+        holder.phoneTextView.setText(freelancer.getFreelancer_phone());
+        //holder.jobTitleTextView.setText(job.getJob_title());
+        //holder.cityTextView.setText(job.getCity());
+        //holder.descriptionTextView.setText(job.getDescription());
 
-        Log.e(TAG, "userId is null or empty" + job.getUser_Id());
+        Log.e(TAG, "userId is null or empty" + freelancer.getUser_Id());
         //Initialize StarView elements
         StarView star1 = holder.itemView.findViewById(R.id.star1);
         StarView star2 = holder.itemView.findViewById(R.id.star2);
@@ -60,7 +60,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         StarView star5 = holder.itemView.findViewById(R.id.star5);
 
         //Fetch and set star rating
-        fetchStarRating(job.getUser_Id(), star1, star2, star3, star4, star5);
+        fetchStarRating(freelancer.getUser_Id(), star1, star2, star3, star4, star5);
 /*
         holder.contactButton.setOnClickListener(v -> {
             // Navigate to MessagesFragment
@@ -79,15 +79,15 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 
  */
         holder.reviewButton.setOnClickListener(v -> {
-        //Navigate to ReviewingProfilePage
-                Intent intent = new Intent(context, ReviewingProfilePage.class);
-                String posterUserId = job.getUser_Id();
-                String userOrFreelancerId = Directory.reviewProfileBypassID();
+            //Navigate to ReviewingProfilePage
+            Intent intent = new Intent(context, ReviewingProfilePage.class);
+            String posterUserId = freelancer.getUser_Id();
+            String userOrFreelancerId = Directory.reviewProfileBypassID();
 
-                intent.putExtra(ReviewingProfilePage.EXTRA_POSTER_USER_ID, posterUserId);
-                intent.putExtra(ReviewingProfilePage.USER_OR_FREELANCERID, userOrFreelancerId);
+            intent.putExtra(ReviewingProfilePage.EXTRA_POSTER_USER_ID, posterUserId);
+            intent.putExtra(ReviewingProfilePage.USER_OR_FREELANCERID, userOrFreelancerId);
 
-                context.startActivity(intent);
+            context.startActivity(intent);
 
         });
 
@@ -154,14 +154,14 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 
     @Override
     public int getItemCount() {
-        return jobList.size();
+        return FreelancerList.size();
     }
 
-    static class JobViewHolder extends RecyclerView.ViewHolder {
+    static class FreelancerViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView, emailTextView, phoneTextView, jobTitleTextView, cityTextView, descriptionTextView, dateTextView;
         Button contactButton, reviewButton;
 
-        public JobViewHolder(@NonNull View itemView) {
+        public FreelancerViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.nameTextView);
             emailTextView = itemView.findViewById(R.id.emailTextView);
