@@ -10,11 +10,11 @@ public class Freelancer {
 
     public Freelancer() {}
     public  Freelancer(String freelancer_email, String freelancer_exp, String freelancer_name, String freelancer_phone, int star_review) {
-    this.freelancer_email = freelancer_email;
-    this.freelancer_exp = freelancer_exp;
-    this.freelancer_name = freelancer_name;
-    this.freelancer_phone = freelancer_phone;
-    this.star_review = star_review;
+        this.freelancer_email = freelancer_email;
+        this.freelancer_exp = freelancer_exp;
+        this.freelancer_name = freelancer_name;
+        this.freelancer_phone = freelancer_phone;
+        this.star_review = star_review;
     }
     public String getUser_Id(){return freelancer_email;}
     public void setUser_Id(String freelancer_email){this.freelancer_email = freelancer_email;}

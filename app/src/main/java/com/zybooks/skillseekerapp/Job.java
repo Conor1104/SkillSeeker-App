@@ -124,11 +124,11 @@ public class Job {
     }
 
     public int getStarReview() {
-    return star_review;
+        return star_review;
     }
 
     public void setStarReview(int starReview) {
-    this.star_review = star_review;
+        this.star_review = star_review;
     }
 
     //public String getUser_Id(){return freelancer_email;}

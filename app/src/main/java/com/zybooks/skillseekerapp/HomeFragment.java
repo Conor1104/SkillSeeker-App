@@ -37,6 +37,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private JobAdapter jobAdapter;
+    private FreelancerAdapter freelancerAdapter;
     private List<Job> jobList;
     private List<Freelancer> freelancerList;
     private SSDataBaseHelper dbHelper;
@@ -85,9 +86,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int item;
-                    Log.d("HomeFragment", "onItemSelected called:" + parent.getItemAtPosition(position).toString()); //Checking which category gets called
-                    String selectedFilter = parent.getItemAtPosition(position).toString();
-                    filterJobs(selectedFilter);
+                Log.d("HomeFragment", "onItemSelected called:" + parent.getItemAtPosition(position).toString()); //Checking which category gets called
+                String selectedFilter = parent.getItemAtPosition(position).toString();
+                filterJobs(selectedFilter);
             }
 
             @Override
@@ -95,7 +96,7 @@ public class HomeFragment extends Fragment {
                 // Do nothing
             }
         });
-
+/*
         UserOrFreelancer.setOnCheckedChangeListener((SwitchCompat, isChecked) -> {
                     if (isChecked) {
                         showFreelancers(UserOrFreelancer);
@@ -104,6 +105,7 @@ public class HomeFragment extends Fragment {
                         fetchJobs();
                     }
                 });
+                */
 
 /*
         filterButton.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +131,7 @@ public class HomeFragment extends Fragment {
         jobList = new ArrayList<>();
         freelancerList = new ArrayList<>();
         jobAdapter = new JobAdapter(jobList, getContext());
+        freelancerAdapter = new FreelancerAdapter(freelancerList, getContext());
         recyclerView.setAdapter(jobAdapter);
 
 
@@ -141,17 +144,17 @@ public class HomeFragment extends Fragment {
         return view; // return the inflated view
     }
 
-
+/*
     private void showFreelancers(SwitchCompat UserOrFreelancer) {
 
             //boolean showFreelancers = UserOrFreelancer.isChecked();
         if (UserOrFreelancer.isChecked()) {
             // Show freelancers
             Log.d("HomeFragment", "showFreelancers called");
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            FirebaseFirestore dbz = FirebaseFirestore.getInstance();
 
             //freelancerList = new ArrayList<>();
-            db.collection("freelancers").get().addOnCompleteListener(task -> {
+            dbz.collection("freelancers").get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
 
                     if (freelancerList!= null) {
@@ -165,7 +168,7 @@ public class HomeFragment extends Fragment {
                         //Freelancer freelancer = document.toObject(Freelancer.class);
                         freelancerList.add(freelancer);
                     }
-                    JobAdapter.notifyDataSetChanged();
+                    freelancerAdapter.notifyDataSetChanged();
                 }
                 else {
 
@@ -177,6 +180,7 @@ public class HomeFragment extends Fragment {
         //else fetchJobs();
 
     }
+    */
 
     private void filterJobs(String criteria) {
         FirebaseFirestore fj = FirebaseFirestore.getInstance();

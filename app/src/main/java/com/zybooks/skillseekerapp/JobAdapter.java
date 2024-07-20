@@ -79,15 +79,15 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 
  */
         holder.reviewButton.setOnClickListener(v -> {
-        //Navigate to ReviewingProfilePage
-                Intent intent = new Intent(context, ReviewingProfilePage.class);
-                String posterUserId = job.getUser_Id();
-                String userOrFreelancerId = Directory.reviewProfileBypassID();
+            //Navigate to ReviewingProfilePage
+            Intent intent = new Intent(context, ReviewingProfilePage.class);
+            String posterUserId = job.getUser_Id();
+            String userOrFreelancerId = Directory.reviewProfileBypassID();
 
-                intent.putExtra(ReviewingProfilePage.EXTRA_POSTER_USER_ID, posterUserId);
-                intent.putExtra(ReviewingProfilePage.USER_OR_FREELANCERID, userOrFreelancerId);
+            intent.putExtra(ReviewingProfilePage.EXTRA_POSTER_USER_ID, posterUserId);
+            intent.putExtra(ReviewingProfilePage.USER_OR_FREELANCERID, userOrFreelancerId);
 
-                context.startActivity(intent);
+            context.startActivity(intent);
 
         });
 
