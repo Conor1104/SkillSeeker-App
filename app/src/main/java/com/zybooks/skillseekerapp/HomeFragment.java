@@ -3,7 +3,6 @@ package com.zybooks.skillseekerapp;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,11 +17,9 @@ import com.zybooks.skillseekerapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Switch;
 
 
 public class HomeFragment extends Fragment {
@@ -37,15 +34,11 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private JobAdapter jobAdapter;
-    private FreelancerAdapter freelancerAdapter;
     private List<Job> jobList;
-    private List<Freelancer> freelancerList;
     private SSDataBaseHelper dbHelper;
 
     private Button filterButton;
     private Spinner job_category;
-    private SwitchCompat UserOrFreelancer;
-    private boolean isFetching = false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -76,40 +69,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d("HomeFragment", "onCreateView called");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        filterButton = view.findViewById(R.id.filter); //// Find the filter button
 
-        //filterButton = view.findViewById(R.id.filter); //// Find the filter button
-        //UserOrFreelancer = view.findViewById(R.id.UserOrFreelancer); //Finds the switch button
-        //Job Category Selector
-        job_category = view.findViewById(R.id.job_options_home);
-
-        // Set an item selected listener on the spinner
-        job_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int item;
-                Log.d("HomeFragment", "onItemSelected called:" + parent.getItemAtPosition(position).toString()); //Checking which category gets called
-                String selectedFilter = parent.getItemAtPosition(position).toString();
-                filterJobs(selectedFilter);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
-                //fetchJobs();
-            }
-        });
-/*
-        UserOrFreelancer.setOnCheckedChangeListener((SwitchCompat, isChecked) -> {
-                    if (isChecked) {
-                        showFreelancers(UserOrFreelancer);
-                    }
-                    else {
-                        fetchJobs();
-                    }
-                });
-                */
-
-/*
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,8 +78,7 @@ public class HomeFragment extends Fragment {
                 filterJobs(filterCriteria);
             }
         });
-        */
-
+        job_category = view.findViewById(R.id.job_options_home);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.job_options,
                 android.R.layout.simple_spinner_item
@@ -126,94 +86,37 @@ public class HomeFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         job_category.setAdapter(adapter);
 
-
-
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         jobList = new ArrayList<>();
-        //freelancerList = new ArrayList<>();
         jobAdapter = new JobAdapter(jobList, getContext());
-        //freelancerAdapter = new FreelancerAdapter(freelancerList, getContext());
         recyclerView.setAdapter(jobAdapter);
 
 
         dbHelper = new SSDataBaseHelper();
         fetchJobs();
-        //jobAdapter.notifyDataSetChanged();
 
 
         // Inflate the layout for this fragment
-        // return inflater.inflate(R.layout.fragment_home, container, false);
+//        return inflater.inflate(R.layout.fragment_home, container, false);
         return view; // return the inflated view
     }
 
-/*
-    private void showFreelancers(SwitchCompat UserOrFreelancer) {
-
-            //boolean showFreelancers = UserOrFreelancer.isChecked();
-        if (UserOrFreelancer.isChecked()) {
-            // Show freelancers
-            Log.d("HomeFragment", "showFreelancers called");
-            FirebaseFirestore dbz = FirebaseFirestore.getInstance();
-
-            //freelancerList = new ArrayList<>();
-            dbz.collection("freelancers").get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-
-                    if (freelancerList!= null) {
-                        freelancerList.clear();
-                    }
-                    //freelancerList.clear();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Freelancer freelancer = document.toObject(Freelancer.class);
-                        freelancerList.add(freelancer);
-                        //Freelancer freelancer = document.toObject(Freelancer.class);
-                        //Freelancer freelancer = document.toObject(Freelancer.class);
-                        freelancerList.add(freelancer);
-                    }
-                    freelancerAdapter.notifyDataSetChanged();
-                }
-                else {
-
-                    Log.e("HomeFragment", "Error fetching freelancers", task.getException());
-                    // Handle the error
-                }
-            });
-        }
-        else fetchJobs();
-
-    }
-
- */
-
     private void filterJobs(String criteria) {
-        if (isFetching) return;
-        isFetching = true;
-        FirebaseFirestore fj = FirebaseFirestore.getInstance();
-        fj.collection("jobs").whereEqualTo("job_category", criteria).get().addOnCompleteListener(task -> {
-            isFetching = false;
-            if (task.isSuccessful()) {
-                if (jobList != null) {
-                    jobList.clear();
-                }
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    Job job = document.toObject(Job.class);
-                    jobList.add(job);
-                }
-                jobAdapter.notifyDataSetChanged();
-            } else {
-                Log.e("HomeFragment", "Error fetching jobs", task.getException());
-                // Handle the error
+        List<Job> filteredJobs = new ArrayList<>();
+        for (Job job : jobList) {
+            if (job.getJob_title().contains(criteria) || job.getCity().contains(criteria)) {
+                filteredJobs.add(job);
             }
-        });
+        }
+        jobAdapter = new JobAdapter(filteredJobs, getContext());
+        recyclerView.setAdapter(jobAdapter);
+        jobAdapter.notifyDataSetChanged();
     }
 
     private void fetchJobs() {
-        if(isFetching) return;
-        isFetching = true;
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("jobs").get().addOnCompleteListener(task -> {
-            isFetching = false;
             if (task.isSuccessful()) {
                 jobList.clear();
                 for (QueryDocumentSnapshot document : task.getResult()) {
@@ -225,7 +128,6 @@ public class HomeFragment extends Fragment {
                 Log.e("HomeFragment", "Error fetching jobs", task.getException());
                 // Handle the error
             }
-
         });
     }
 
@@ -235,7 +137,7 @@ public class HomeFragment extends Fragment {
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         }
-        fetchJobs();
+        fetchJobs();// Refresh data when fragment resumes
     }
 
     @Override
@@ -252,38 +154,39 @@ public class HomeFragment extends Fragment {
 
         public JobViewHolder(@NonNull View itemView) {
             super(itemView);
+/*
+            contactButton = itemView.findViewById(R.id.contactButton);
 
-//            contactButton = itemView.findViewById(R.id.contactButton);
+            contactButton.setOnClickListener(v -> {
+                Log.d("JobViewHolder", "Contact button clicked");
 
-//            contactButton.setOnClickListener(v -> {
-//                Log.d("JobViewHolder", "Contact button clicked");
-//
-//                // Navigate to MessagesFragment
-//                Job job = jobList.get(getAdapterPosition());
-//                String posterUserId = job.getPosterUserId();
-//                Log.d("JobViewHolder", "Poster UserId: " + posterUserId);
-//
-//
-//                Bundle bundle = new Bundle();
-//                bundle.putString("posterUserId", posterUserId);
-//
-//                AppCompatActivity activity = (AppCompatActivity) v.getContext();
-//                MessagesFragment messagesFragment = new MessagesFragment();
-//                messagesFragment.setArguments(bundle);
-//
-//                Log.d("HomeFragment", "Navigating to MessagesFragment");
-//
-//                activity.getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .replace(R.id.main_container, messagesFragment) // Replace with your fragment container ID
-//                        .addToBackStack(null)
-//                        .commit();
-//
-//                Log.d("HomeFragment", "Transaction committed");
-//                Log.d("JobViewHolder", "Navigated to MessagesFragment");
-//            });
+                // Navigate to MessagesFragment
+                Job job = jobList.get(getAdapterPosition());
+                String posterUserId = job.getPosterUserId();
+                Log.d("JobViewHolder", "Poster UserId: " + posterUserId);
+
+
+                Bundle bundle = new Bundle();
+                bundle.putString("posterUserId", posterUserId);
+
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                MessagesFragment messagesFragment = new MessagesFragment();
+                messagesFragment.setArguments(bundle);
+
+                Log.d("HomeFragment", "Navigating to MessagesFragment");
+
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_container, messagesFragment) // Replace with your fragment container ID
+                        .addToBackStack(null)
+                        .commit();
+
+                Log.d("HomeFragment", "Transaction committed");
+                Log.d("JobViewHolder", "Navigated to MessagesFragment");
+            });
+
+ */
         }
     }
 }
 
-//Updated

@@ -50,7 +50,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         holder.jobTitleTextView.setText(job.getJob_title());
         holder.cityTextView.setText(job.getCity());
         holder.descriptionTextView.setText(job.getDescription());
-
+        holder.dateTextView.setText(job.getDate());
         Log.e(TAG, "userId is null or empty" + job.getUser_Id());
         //Initialize StarView elements
         StarView star1 = holder.itemView.findViewById(R.id.star1);
@@ -79,15 +79,15 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 
  */
         holder.reviewButton.setOnClickListener(v -> {
-            //Navigate to ReviewingProfilePage
-            Intent intent = new Intent(context, ReviewingProfilePage.class);
-            String posterUserId = job.getUser_Id();
-            String userOrFreelancerId = Directory.reviewProfileBypassID();
+        //Navigate to ReviewingProfilePage
+                Intent intent = new Intent(context, ReviewingProfilePage.class);
+                String posterUserId = job.getUser_Id();
+                String userOrFreelancerId = Directory.reviewProfileBypassID();
 
-            intent.putExtra(ReviewingProfilePage.EXTRA_POSTER_USER_ID, posterUserId);
-            intent.putExtra(ReviewingProfilePage.USER_OR_FREELANCERID, userOrFreelancerId);
+                intent.putExtra(ReviewingProfilePage.EXTRA_POSTER_USER_ID, posterUserId);
+                intent.putExtra(ReviewingProfilePage.USER_OR_FREELANCERID, userOrFreelancerId);
 
-            context.startActivity(intent);
+                context.startActivity(intent);
 
         });
 
@@ -175,4 +175,3 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
         }
     }
 }
-//UPdated
