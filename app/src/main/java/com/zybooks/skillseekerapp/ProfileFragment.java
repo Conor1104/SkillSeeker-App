@@ -110,6 +110,7 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(), "Create an account to have a Profile", Toast.LENGTH_SHORT).show();
             }
         }
+
     }
 
     @Override
@@ -161,6 +162,8 @@ public class ProfileFragment extends Fragment {
         //Fetch and display user profile information using the userId
         fetchUserProfile();
 
+        Button logoutButton = view_prof.findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(v -> logout());
 
         return view_prof;
     }
@@ -369,4 +372,16 @@ public class ProfileFragment extends Fragment {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
     }
+
+    private void logout() {
+        // Clear user session if necessary (e.g., shared preferences, etc.)
+
+        // Navigate back to Login_Register activity
+        Intent intent = new Intent(getActivity(), Login_Register.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear the back stack
+        startActivity(intent);
+        getActivity().finish();
+    }
+
+
 }
