@@ -9,6 +9,7 @@ import android.view.View;
 public class StarView extends View {
     private Paint paint;
     private boolean isSelected;
+    private boolean isHalf;
 
     public StarView(Context context) {
         super(context);
@@ -30,6 +31,7 @@ public class StarView extends View {
         paint.setAntiAlias(true);
         paint.setColor(0xFFFFD700);//Gold
         isSelected = false;
+        isHalf = false;
     }
 
     @Override
@@ -44,14 +46,24 @@ public class StarView extends View {
         StarPath starPath = new StarPath(x, y, size / 2, size, 5);
         if (isSelected) {
             paint.setStyle(Paint.Style.FILL);
+            canvas.drawPath(starPath, paint);
+        } else if (isHalf) {
+            // Draw half-star logic
+            paint.setStyle(Paint.Style.FILL);
+            canvas.drawPath(starPath, paint); // Draw half star if needed
         } else {
             paint.setStyle(Paint.Style.STROKE);
+            canvas.drawPath(starPath, paint);
         }
-        canvas.drawPath(starPath, paint);
     }
 
     public void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
         invalidate(); //Redraws the view
+    }
+
+    public void setHalf(boolean isHalf) {
+        this.isHalf = isHalf;
+        invalidate(); // Redraws the view
     }
 }

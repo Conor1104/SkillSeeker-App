@@ -14,16 +14,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ReviewingProfilePage extends AppCompatActivity {
 
     private static final String TAG = "ReviewingProfilePage";
     public static final String EXTRA_POSTER_USER_ID = "posterUserId";
-    public static final String USER_OR_FREELANCERID ="active_id";
+    public static final String USER_OR_FREELANCERID = "active_id";
     private String active_id;
 
     private String posterUserId;
 
-    private TextView experinceEditText, freelancer_email ,freelancer_phone , nameFreelancer ,experience_HeaderText, age_headerText, stars_HeaderText,nameTextView, phoneTextView, emailTextView, ageTextView, experienceTextView;
+    private TextView experinceEditText, freelancer_email, freelancer_phone, nameFreelancer, experience_HeaderText, age_headerText, stars_HeaderText, nameTextView, phoneTextView, emailTextView, ageTextView, experienceTextView;
     private EditText starsEditText;
     private StarView[] starViews = new StarView[5];
     private Button saveButton_Freelancers;
@@ -37,7 +42,6 @@ public class ReviewingProfilePage extends AppCompatActivity {
         active_id = intent_active_id.getStringExtra(USER_OR_FREELANCERID);
 
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reviewing_profile_page);
 
@@ -45,7 +49,6 @@ public class ReviewingProfilePage extends AppCompatActivity {
         // Get the posterUserId from the Intent
         Intent intent = getIntent();
         posterUserId = intent.getStringExtra(EXTRA_POSTER_USER_ID);
-
 
 
         // Initialize views
@@ -75,7 +78,7 @@ public class ReviewingProfilePage extends AppCompatActivity {
         //All in fragment_profile.xml
         nameFreelancer = findViewById(R.id.profile_name_freelancer);
         freelancer_phone = findViewById(R.id.freelancer_phone_text);
-        freelancer_email= findViewById(R.id.freelancer_email_text);
+        freelancer_email = findViewById(R.id.freelancer_email_text);
         //starsEditText =view_prof.findViewById(R.id.profile_stars);
 
 
@@ -98,6 +101,16 @@ public class ReviewingProfilePage extends AppCompatActivity {
 
     }
 
+    private void updateStarRating(int starRating) {
+        for (int i = 0; i < 5; i++) {
+            if (i < starRating) {
+                starViews[i].setSelected(true); //Select star
+            } else {
+                starViews[i].setSelected(false); //Deselect star
+            }
+        }
+    }
+
     private void fetchProfileInfo() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users").document(posterUserId).get().addOnCompleteListener(task -> {
@@ -110,13 +123,14 @@ public class ReviewingProfilePage extends AppCompatActivity {
                     emailTextView.setText(document.getString("user_email"));
                     ageTextView.setText(document.getString("age"));
 
-                    int starReview = document.getLong("star_review").intValue();
-                    updateStarViews(starReview);
+                    List<Double> reviews = (List<Double>) document.get("reviews");
+                    double averageRating = calculateAverageRating(reviews);
+                    updateStarRating(averageRating);
 
                     // Hide EditText fields for user profile
                     starsEditText.setVisibility(View.VISIBLE);
 
-                    starsEditText.setText(String.valueOf(starReview));//Converts int to String
+                    starsEditText.setText(String.valueOf(averageRating)); //Converts int to String
 
                     // Show user views and hide freelancer views
                     setUserViewsVisibility(View.VISIBLE);
@@ -150,10 +164,12 @@ public class ReviewingProfilePage extends AppCompatActivity {
                     freelancer_email.setText(document.getString("freelancer_email"));
                     experienceTextView.setText(document.getString("freelancer_exp"));
 
-                    int starReview = document.getLong("star_review").intValue();
-                    updateStarViews(starReview);
+                    List<Double> reviews = (List<Double>) document.get("reviews");
+                    double averageRating = calculateAverageRating(reviews);
+                    updateStarRating(averageRating);
 
-                    starsEditText.setText(String.valueOf(starReview));//Converts int to String
+                    starsEditText.setText(String.valueOf(averageRating)); // Converts int to String
+
                     // Hide EditText fields for freelancer profile
                     starsEditText.setVisibility(View.VISIBLE);
                     setFreelancerViewsVisibility(View.VISIBLE);
@@ -174,6 +190,7 @@ public class ReviewingProfilePage extends AppCompatActivity {
             }
         });
     }
+
     private void setUserViewsVisibility(int visibility) {
         phoneTextView.setVisibility(visibility);
         nameTextView.setVisibility(visibility);
@@ -186,25 +203,52 @@ public class ReviewingProfilePage extends AppCompatActivity {
         freelancer_phone.setVisibility(visibility);
         freelancer_email.setVisibility(visibility);
     }
-    private void updateStarViews(int starReview) {
-        if (starViews == null) return;
+
+    private void updateStarRating(double starRating) {
+        int fullStars = (int) Math.floor(starRating);
+        boolean hasHalfStar = starRating > fullStars;
+
         for (int i = 0; i < 5; i++) {
-            if (starViews[i] != null) {
-                if (i < starReview) {
-                    starViews[i].setSelected(true);
-                } else {
-                    starViews[i].setSelected(false);
-                }
+            if (i < fullStars) {
+                starViews[i].setSelected(true); // Select full star
+            } else if (i == fullStars && hasHalfStar) {
+                starViews[i].setSelected(true); // Set half star if needed
+            } else {
+                starViews[i].setSelected(false); // Deselect star
             }
         }
-        if (starsEditText != null) starsEditText.setText(String.valueOf(starReview));
+    }
+
+//    private void updateStarViews(int starReview) {
+//        if (starViews == null) return;
+//        for (int i = 0; i < 5; i++) {
+//            if (starViews[i] != null) {
+//                if (i < starReview) {
+//                    starViews[i].setSelected(true);
+//                } else {
+//                    starViews[i].setSelected(false);
+//                }
+//            }
+//        }
+//        if (starsEditText != null) starsEditText.setText(String.valueOf(starReview));
+//    }
+
+    private double calculateAverageRating(List<Double> reviews) {
+        if (reviews == null || reviews.isEmpty()) {
+            return 0;
+        }
+        double total = 0;
+        for (Double rating : reviews) {
+            total += rating;
+        }
+        return total / reviews.size();
     }
 
     private void saveStarRating() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        int newStarRating;
+        double newStarRating;
         try {
-            newStarRating = Integer.parseInt(starsEditText.getText().toString());
+            newStarRating = Double.parseDouble(starsEditText.getText().toString());
             if (newStarRating < 0 || newStarRating > 5) {
                 Toast.makeText(this, "Star rating must be between 0 and 5", Toast.LENGTH_SHORT).show();
                 return;
@@ -214,30 +258,76 @@ public class ReviewingProfilePage extends AppCompatActivity {
             return;
         }
 
-        if(active_id == null){
+        if (active_id == null) {
             Toast.makeText(this, "You need an account to make a review", Toast.LENGTH_SHORT).show();
-        }
-        else if (!active_id.equals(posterUserId)){
-            db.collection("users").document(posterUserId).update("star_review", newStarRating)
-                    .addOnCompleteListener(task1 -> {
-                        if (task1.isSuccessful()) {
-                            Toast.makeText(this, "Star rating updated successfully", Toast.LENGTH_SHORT).show();
-                            updateStarViews(newStarRating);
-                        } else {
-                            db.collection("freelancers").document(posterUserId).update("star_review", newStarRating)
-                                    .addOnCompleteListener(task2 -> {
-                                        if (task2.isSuccessful()) {
-                                            Toast.makeText(this, "Star rating updated successfully", Toast.LENGTH_SHORT).show();
-                                            updateStarViews(newStarRating);
-                                        } else {
-                                            Toast.makeText(this, "Error updating star rating: " + task2.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+        } else if (!active_id.equals(posterUserId)) {
+            db.collection("users").document(posterUserId).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        List<Double> reviews = (List<Double>) document.get("reviews");
+                        if (reviews == null) {
+                            reviews = new ArrayList<>();
                         }
-                    });
-        }
-        else{
-            Toast.makeText(this, "You can not rate your own account", Toast.LENGTH_SHORT).show();
+                        reviews.add(newStarRating); // Adding a Double to a List<Double>
+                        double averageRating = calculateAverageRating(reviews);
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("reviews", reviews);
+                        updates.put("averageRating", averageRating); // Update the average rating field
+                        db.collection("users").document(posterUserId).update(updates).addOnCompleteListener(updateTask -> {
+                            if (updateTask.isSuccessful()) {
+                                updateStarRating(averageRating);
+                            } else {
+                                Toast.makeText(this, "Error updating rating: " + updateTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } else {
+                    Toast.makeText(this, "Error fetching user profile: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(this, "You cannot rate your own account", Toast.LENGTH_SHORT).show();
         }
     }
 }
+
+//    private void saveStarRating() {
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        int newStarRating;
+//        try {
+//            newStarRating = Integer.parseInt(starsEditText.getText().toString());
+//            if (newStarRating < 0 || newStarRating > 5) {
+//                Toast.makeText(this, "Star rating must be between 0 and 5", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//        } catch (NumberFormatException e) {
+//            Toast.makeText(this, "Invalid star rating", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        if(active_id == null){
+//            Toast.makeText(this, "You need an account to make a review", Toast.LENGTH_SHORT).show();
+//        }
+//        else if (!active_id.equals(posterUserId)) {
+//            db.collection("users").document(posterUserId).get().addOnCompleteListener(task -> {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        List<Long> reviews = (List<Long>) document.get("reviews");
+//                        if (reviews == null) {
+//                            reviews = new ArrayList<>();
+//                        }
+//                        reviews.add((long) newStarRating);
+//                        int averageRating = calculateAverageRating(reviews);
+//                        Map<String, Object> updates = new HashMap<>();
+//                        updates.put("reviews", reviews);
+//                    }
+//                        }
+//                    });
+//        }
+//        else{
+//            Toast.makeText(this, "You can not rate your own account", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//}
