@@ -13,14 +13,15 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/UserOrFreelancer"
-        android:layout_width="129dp"
+    <Button
+        android:id="@+id/filter"
+        android:layout_width="115dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_marginTop="16dp"
-        android:text="Freelancer"
-        android:visibility="visible"
+        android:backgroundTint="@color/button_color"
+        android:text="Filter"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
